@@ -2,32 +2,49 @@
 
 !['sass calc'](sass-calc.png)
 
-**Sass-Calc** is a collection of functions which augment math in Sass through use of CSS `calc()`. While Sass supports math operations on CSS values, it only works with *compatible* units (since the true dimensions of a `rem`, `em`, `%`, `vw` etc. are not known until runtime); but CSS `calc()` expressions are *evaluated at runtime* and so can operate on mixed units, e.g. `100vw - 50%`, `(2rem - 1ex) / 2` etc.
+[![Build Status](https://travis-ci.org/lunelson/sass-calc.svg?branch=master)](https://travis-ci.org/lunelson/sass-calc)
 
- enables otherwise impossible calculations, such as when input-values of different units are supplied. [Browser support is very good](http://caniuse.com/#feat=calc).
+**Sass-Calc** is a collection of functions which augment math in Sass through use of CSS `calc()`. While Sass supports math operations on CSS values, it only works with compatible units (references [here](https://www.sitepoint.com/sass-basics-operators/) and [here](https://www.sitepoint.com/understanding-sass-units/)); but `calc()` expressions are evaluated at runtime, and so can operate on mixed units. They can be nested to create complex values, and [Browser support is very good](http://caniuse.com/#feat=calc).
 
-The functions will use Sass operations wherever possible, in order to (a) handle expressions that are invalid in CSS `calc()`, such as adding or subtracting unitless numbers, and (b) to simplify the resulting expressions.
+```scss
+// test.scss
+.hello-world {
+  test: subtract(1.5em, 1em);
+  test: subtract(1.5em, 1rem);
+  test: divide(subtract(1.5em, 1em), 2);
+  test: subtract(divide(subtract(1.5em, 1em), 2), add(1em, 1ex));
+}
+```
+```css
+/* test.css */
+.hello-world {
+  test: 0.5em;
+  test: calc(1.5em - 1rem);
+  test: 0.25em;
+  test: calc(0.25em - (1em + 1ex));
+}
+```
+
+`add()`, `subtract()`, `multiply()` and `divide()` are described below. They will employ Sass math if given compatible inputs; but given complex inputs (including other `calc()` expressions), will output an unquoted `calc()` expression string.
 
 ### `add([number|calc], [number|calc])`
 ```scss
-// each argument can be either a number or a calc expression
+// examples to come
 ```
 ### `subtract([number|calc], [number|calc])`
 ```scss
-// each argument can be either a number or a calc expression
+// examples to come
 ```
 ### `multiply([number|calc], [number])`
 ```scss
-// each argument can be either a number or a calc expression
+// examples to come
 ```
 ### `divide([number|calc], [number])`
 ```scss
-// each argument can be either a number or a calc expression
+// examples to come
 ```
 
-They will produce a simple output value if possible; otherwise they output an unquoted `calc` expression string. They also accept calc expressions as input, allowing the building of complex runtime CSS values.
-
-### Installation
+### Install
 
 This is not currently registered in any package directories but can be installed from github via `npm`, and imported in [node-sass](https://github.com/sass/node-sass) and compliant tools, as long as the `includePaths` option includes `'node_modules'`.
 
@@ -39,23 +56,14 @@ npm install --save lunelson/sass-calc
 // in your sass file
 @import 'sass-calc/index';
 ```
-#### Contribution / Support
+#### Get in touch
 
-[Hit me up on twitter.]()
+[Ping me on twitter.](https://twitter.com/lunelson)
 
-```scss
-.hello-world {
-  test: subtract(1.5em, 1em);
-  test: subtract(1.5em, 1rem);
-  test: divide(subtract(1.5em, 1em), 2);
-  test: subtract(divide(subtract(1.5em, 1em), 2), add(1em, 1ex));
-}
-```
-```css
-.hello-world {
-  test: 0.5em;
-  test: calc(1.5em - 1rem);
-  test: 0.25em;
-  test: calc(0.25em - (1em + 1ex));
-}
-```
+#### TODO
+
+- [ ] document and bung to gh-pages
+  http://sassdoc.com/
+
+- [ ] finish writing tests for main functions
+  http://oddbird.net/true/
