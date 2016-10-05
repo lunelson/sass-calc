@@ -1,0 +1,44 @@
+@import 'true'; // true
+@import '../index'; // sass-calc
+
+@include test-module('main') {
+  @include test('add') {
+    // unit-n and unitless
+    // unitless and unit-n
+    // matched units
+    // unmatched units
+    // calc and number
+    // number and calc
+    // calc and calc
+    // string and number
+    // string and calc
+    @include assert-equal();
+  }
+  @include test('subtract') {
+    // unit-n and unitless
+    // unitless and unit-n
+    // matched units
+    // unmatched units
+    // calc and number
+    // number and calc
+    // calc and calc
+    // string and number
+    // string and calc
+    @include assert-equal();
+  }
+  @include test('multiply') {
+    // unit-n and unitless - ok
+    // unitless and unit-n - ok
+    // calc and number - ok
+    // number and calc - ok
+    // string and number - warning
+    // string and calc - fail
+    // matched units - fail
+    // unmatched units - fail
+    // calc and calc - fail
+    @include assert-equal();
+  }
+  @include test('divide') {
+    @include assert-equal();
+  }
+}

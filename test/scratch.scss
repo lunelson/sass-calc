@@ -1,0 +1,22 @@
+@import '../index';
+
+.debug {
+  num: num-check(1em, 'str');
+  num: num-check((1 2), 2);
+  num: type-of((2 3));
+  $test: 'hello / (world)';
+  num: str-last-index($test, 'rld');
+  num: str-last-index($test, 'o');
+  num: str-last-index($test, 'l');
+  num: str-last-index($test, 'rl');
+  num: str-last-index($test, ')') str-length($test);
+  pre: pre-calc(5);
+  pre: pre-calc(5em);
+  pre: pre-calc(null);
+  pre: pre-calc(calc(1em + 3%));
+  pre: unquote('1em + 3%');
+  pre: pre-calc(unquote('1em + 3%'));
+  pre: pre-calc('string');
+  pre: pre-calc(string);
+  pre: pre-calc(add(1em, 1vw));
+}

@@ -1,0 +1,33 @@
+@import 'true'; // true
+@import '../index'; // sass-calc
+
+@include test-module('utils') {
+
+  @include test('str-last-index') {
+    $test: 'hello / (world)';
+
+    // find the thingz at the right place
+    @include assert-equal(str-last-index($test, 'rld'), 12);
+    @include assert-equal(str-last-index($test, 'o'), 11);
+    @include assert-equal(str-last-index($test, 'l'), 13);
+    @include assert-equal(str-last-index($test, 'rl'), 12);
+    @include assert-equal(str-last-index($test, ')'), str-length($test));
+  }
+
+  @include test('pre-calc') {
+
+    // turn unitless numbers in to em values
+    @include assert-equal(pre-calc(5), 5em);
+
+    // strip 'calc' from calc expressions
+    @include assert-equal(pre-calc(calc(1em + 3%)), unquote('(1em + 3%)'));
+
+    // return strings unquoted in brackets
+    @include assert-equal(pre-calc(unquote('1em + 3%')), unquote('(1em + 3%)'));
+    @include assert-equal(pre-calc('string'), unquote('(string)'));
+    @include assert-equal(pre-calc(string), unquote('(string)'));
+
+    // return other values, unmodified
+    @include assert-equal(pre-calc(5%), 5%);
+  }
+}
