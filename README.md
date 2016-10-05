@@ -4,7 +4,7 @@
 
 [![Build Status](https://travis-ci.org/lunelson/sass-calc.svg?branch=master)](https://travis-ci.org/lunelson/sass-calc)
 
-**Sass-Calc** is a collection of functions which augment math in Sass through use of CSS `calc()`. While Sass supports math operations on CSS values, it only works with compatible units (references [here](https://www.sitepoint.com/sass-basics-operators/) and [here](https://www.sitepoint.com/understanding-sass-units/)); but `calc()` expressions are evaluated at runtime, and so can operate on mixed units. They can be nested to create complex values, and [Browser support is very good](http://caniuse.com/#feat=calc).
+**Sass-Calc** is a collection of functions which augment math in Sass through use of CSS `calc()`. While Sass supports math operations on CSS values, it only works with compatible units (references [here](https://www.sitepoint.com/sass-basics-operators/) and [here](https://www.sitepoint.com/understanding-sass-units/)); but `calc()` expressions are evaluated at runtime and so can operate on mixed units. They can be nested to create complex values, and their [Browser support is very good](http://caniuse.com/#feat=calc).
 
 ```scss
 // test.scss
