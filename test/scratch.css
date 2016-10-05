@@ -14,4 +14,13 @@
   pre: (1em + 3%);
   pre: (string);
   pre: (string);
-  pre: (1em + 1vw); }
+  pre: (1em + 1vw);
+}
+
+.hello-world {
+  test: 0.5em;
+  test: calc(1.5em + 1rem);
+  test: calc(((100vw - 50%) * 2) + 10px);
+  test: 0.25em;
+  test: calc(0.25em - (1em + 1ex));
+}

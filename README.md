@@ -4,13 +4,18 @@
 
 [![Build Status](https://travis-ci.org/lunelson/sass-calc.svg?branch=master)](https://travis-ci.org/lunelson/sass-calc)
 
-**Sass-Calc** is a collection of functions which augment math in Sass through use of CSS `calc()`. While Sass supports math operations on CSS values, it only works with compatible units (references [here](https://www.sitepoint.com/sass-basics-operators/) and [here](https://www.sitepoint.com/understanding-sass-units/)); but `calc()` expressions are evaluated at runtime and so can operate on mixed units. They can be nested to create complex values, and their [Browser support is very good](http://caniuse.com/#feat=calc).
+**Sass-Calc** is a collection of functions which augment the power and flexibility of math operations in Sass through use of CSS `calc()`. While Sass supports math operations on CSS values, it only works with compatible units (references [here](https://www.sitepoint.com/sass-basics-operators/) and [here](https://www.sitepoint.com/understanding-sass-units/)); but `calc()` expressions are evaluated at runtime and so can operate on mixed units. They can also be nested to create complex and powerful parametric values and their [browser support is very good](http://caniuse.com/#feat=calc).
+
+These functions employ Sass math if given compatible inputs; but output `calc()` expressions when given complex inputs (including other `calc()` expressions).
 
 ```scss
 // test.scss
 .hello-world {
+  $expr: calc(100vw - 50%);
+
   test: subtract(1.5em, 1em);
-  test: subtract(1.5em, 1rem);
+  test: add(1.5em, 1rem);
+  test: add(multiply($expr, 2), 10px);
   test: divide(subtract(1.5em, 1em), 2);
   test: subtract(divide(subtract(1.5em, 1em), 2), add(1em, 1ex));
 }
@@ -19,13 +24,13 @@
 /* test.css */
 .hello-world {
   test: 0.5em;
-  test: calc(1.5em - 1rem);
+  test: calc(1.5em + 1rem);
+  test: calc(((100vw - 50%) * 2) + 10px);
   test: 0.25em;
   test: calc(0.25em - (1em + 1ex));
 }
 ```
 
-`add()`, `subtract()`, `multiply()` and `divide()` are described below. They will employ Sass math if given compatible inputs; but given complex inputs (including other `calc()` expressions), will output an unquoted `calc()` expression string.
 
 ### `add([number|calc], [number|calc])`
 ```scss
@@ -62,8 +67,9 @@ npm install --save lunelson/sass-calc
 
 #### TODO
 
-- [ ] document and bung to gh-pages
-  http://sassdoc.com/
-
+- [ ] do sassdoc and bung to gh-pages
 - [ ] finish writing tests for main functions
-  http://oddbird.net/true/
+- [ ] do npm
+- [ ] do bower
+- [ ] do sache
+- [ ] do gemspec
