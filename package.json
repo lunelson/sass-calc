@@ -20,7 +20,10 @@
     "url": "https://github.com/lunelson/sass-calc/issues"
   },
   "homepage": "https://github.com/lunelson/sass-calc#readme",
-  "dependencies": {},
+  "dependencies": {
+    "sass-throw": "lunelson/sass-throw",
+    "sass-u": "lunelson/sass-u"
+  },
   "devDependencies": {
     "mocha": "^3.1.0",
     "sass-true": "^2.1.3",

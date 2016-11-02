@@ -1,4 +1,12 @@
 .debug {
+  is-unitless: false;
+  is-number: false;
+  is-number: false;
+  is-zero: false;
+  is-zero: false;
+  zero: 0px;
+  zero: 1px;
+  zero: 0;
   num: false;
   num: false;
   num: list;
@@ -7,8 +15,10 @@
   num: 13;
   num: 12;
   num: 15 15;
+  pre: 5%;
+  pre: 0%;
   pre: 5em;
-  pre: 5em;
+  pre: error("invalid value for calc expression");
   pre: (1em + 3%);
   pre: 1em + 3%;
   pre: (1em + 3%);
@@ -20,6 +30,11 @@
 .hello-world {
   test: 0.5em;
   test: calc(1.5em + 1rem);
+  test: calc(0em + 0rem);
+  test: calc(0em + 1rem);
+  test: calc(-1em + 0rem);
+  test: calc(-1em - 2rem);
+  test: calc(-1em + 2rem);
   test: calc(((100vw - 50%) * 2) + 10px);
   test: 0.25em;
   test: calc(0.25em - (1em + 1ex));

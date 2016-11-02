@@ -3,6 +3,9 @@
 
 @include test-module('main') {
   @include test('add') {
+    // if arg 2 is negative, return subtract instead
+    // if both args are 0 return 0
+    // if one arg is 0, return other
     // unit-n and unitless
     // unitless and unit-n
     // matched units
@@ -15,6 +18,9 @@
     @include assert-equal();
   }
   @include test('subtract') {
+    // if arg 2 is negative, return add instead
+    // if both args are 0, return 0
+    // if one arg is zero, return other
     // unit-n and unitless
     // unitless and unit-n
     // matched units
