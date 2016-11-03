@@ -1,16 +1,17 @@
 {
   "name": "sass-calc",
   "version": "0.0.9",
-  "description": "Functions which augment math operations in Sass through use of CSS `calc` expressions",
+  "description": "Augmented math operations in Sass through use of CSS `calc` expressions",
   "main": "_index.scss",
   "scripts": {
-    "test": "mocha tests.js"
+    "test": "nodemon --exec 'mocha test.js || true'"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/lunelson/sass-calc.git"
   },
   "keywords": [
+    "libsass",
     "sass",
     "calc"
   ],
@@ -21,8 +22,7 @@
   },
   "homepage": "https://github.com/lunelson/sass-calc#readme",
   "dependencies": {
-    "sass-throw": "lunelson/sass-throw",
-    "sass-u": "lunelson/sass-u"
+    "sass-u": "github:lunelson/sass-u"
   },
   "devDependencies": {
     "mocha": "^3.1.0",
