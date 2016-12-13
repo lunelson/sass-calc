@@ -15,7 +15,7 @@
 // checks
 // --------------------------------------------------------------------------
 
-@function __can-addition($a, $b){
+@function __can-add-sub($a, $b){
   @if is-number($a, $b) {
     @return unit($a) == unit($b) or (unitless($a) or unitless($b));
   }
@@ -71,7 +71,7 @@
   @if is-zero($calc1, $calc2) { @return 0%; }
   @if not $calc1 or is-zero($calc1) { @return $calc2; }
   @if not $calc2 or is-zero($calc2) { @return $calc1; }
-  @if __can-addition($calc1, $calc2) { @return $calc1 + $calc2; }
+  @if __can-add-sub($calc1, $calc2) { @return $calc1 + $calc2; }
   @if is-number($calc2) { @if $calc2 < 0 { @return subtract($calc1, $calc2/-1); } }
   @return unquote('calc(#{__calc-format($calc1)} + #{__calc-format($calc2)})');
 }
@@ -80,7 +80,7 @@
   @if is-zero($calc1, $calc2) { @return 0%; }
   @if not $calc1 or is-zero($calc1) { @return $calc2; }
   @if not $calc2 or is-zero($calc2) { @return $calc1; }
-  @if __can-addition($calc1, $calc2) { @return $calc1 - $calc2; }
+  @if __can-add-sub($calc1, $calc2) { @return $calc1 - $calc2; }
   @if is-number($calc2) { @if $calc2 < 0 { @return add($calc1, $calc2/-1); } }
   @return unquote('calc(#{__calc-format($calc1)} - #{__calc-format($calc2)})');
 }
