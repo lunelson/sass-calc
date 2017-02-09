@@ -4,7 +4,9 @@
 
 [![Build Status](https://travis-ci.org/lunelson/sass-calc.svg?branch=master)](https://travis-ci.org/lunelson/sass-calc)
 
-Use the power of CSS `calc()` expressions in Sass math. Perform `add()`, `subtract()`, `multiply()` and `divide()` operations on values with incompatible units, even values which are `calc()` expressions themselves, and return a `calc()` expression as a result.
+Harness the power of CSS `calc()` expressions in Sass math.
+
+Use `add()`, `subtract()`, `multiply()` and `divide()` on values which may have incompatible units, or which are `calc()` expressions themselves, and return a `calc()` expression as a result.
 
 ```sh
 # install
@@ -12,6 +14,7 @@ npm install --save lunelson/sass-calc
 ```
 ```scss
 // test.scss
+@import 'sass-calc/index';
 $expr: calc(100vw - 50%);
 .test {
   test: subtract(1.5em, 1em);
@@ -38,4 +41,4 @@ Refs:
 - https://www.sitepoint.com/understanding-sass-us/
 - http://caniuse.com/#feat=calc
 
-Questions? [Ping me on twitter.](https://twitter.com/lunelson)
+Questions? [Twitter.](https://twitter.com/lunelson)
