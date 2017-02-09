@@ -1,18 +1,19 @@
-## Sass Calc
+# sass-calc
 
 !['sass calc'](sass-calc.png)
 
 [![Build Status](https://travis-ci.org/lunelson/sass-calc.svg?branch=master)](https://travis-ci.org/lunelson/sass-calc)
 
-**Sass-Calc** is a collection of functions which augment the power and flexibility of math operations in Sass through use of CSS `calc()`. While Sass supports math operations on CSS values, it only works with compatible units (references [here](https://www.sitepoint.com/sass-basics-operators/) and [here](https://www.sitepoint.com/understanding-sass-us/)); but `calc()` expressions are evaluated at runtime and so can operate on mixed units. They can also be nested to create complex and powerful parametric values and their [browser support is very good](http://caniuse.com/#feat=calc).
+Use the power of CSS `calc()` expressions in Sass math. Perform `add()`, `subtract()`, `multiply()` and `divide()` operations on values with incompatible units, even values which are `calc()` expressions themselves, and return a `calc()` expression as a result.
 
-These functions employ Sass math if given compatible inputs; but output `calc()` expressions when given complex inputs (including other `calc()` expressions).
-
+```sh
+# install
+npm install --save lunelson/sass-calc
+```
 ```scss
 // test.scss
-.hello-world {
-  $expr: calc(100vw - 50%);
-
+$expr: calc(100vw - 50%);
+.test {
   test: subtract(1.5em, 1em);
   test: add(1.5em, 1rem);
   test: add(multiply($expr, 2), 10px);
@@ -22,7 +23,7 @@ These functions employ Sass math if given compatible inputs; but output `calc()`
 ```
 ```css
 /* test.css */
-.hello-world {
+.test {
   test: 0.5em;
   test: calc(1.5em + 1rem);
   test: calc(((100vw - 50%) * 2) + 10px);
@@ -31,45 +32,10 @@ These functions employ Sass math if given compatible inputs; but output `calc()`
 }
 ```
 
+Refs:
 
-### `add([number|calc], [number|calc])`
-```scss
-// examples to come
-```
-### `subtract([number|calc], [number|calc])`
-```scss
-// examples to come
-```
-### `multiply([number|calc], [number])`
-```scss
-// examples to come
-```
-### `divide([number|calc], [number])`
-```scss
-// examples to come
-```
+- https://www.sitepoint.com/sass-basics-operators/
+- https://www.sitepoint.com/understanding-sass-us/
+- http://caniuse.com/#feat=calc
 
-### Install
-
-This is not currently registered in any package directories but can be installed from github via `npm`, and imported in [node-sass](https://github.com/sass/node-sass) and compliant tools, as long as the `includePaths` option includes `'node_modules'`.
-
-```sh
-# in your project directory
-npm install --save lunelson/sass-calc
-```
-```scss
-// in your sass file
-@import 'sass-calc/index';
-```
-#### Get in touch
-
-[Ping me on twitter.](https://twitter.com/lunelson)
-
-#### TODO
-
-- [ ] do sassdoc and bung to gh-pages
-- [ ] finish writing tests for main functions
-- [ ] do npm
-- [ ] do bower
-- [ ] do sache
-- [ ] do gemspec
+Questions? [Ping me on twitter.](https://twitter.com/lunelson)
