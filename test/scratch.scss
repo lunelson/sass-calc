@@ -1,17 +1,16 @@
-@import '../../index';
+@import '../index';
 
 .debug {
-  is-unitless: is-unitless(1,2,3,4em);
-  is-number: is-number(0px, 0rem, 0, (1 2));
-  is-number: is-number(0px, 0rem, 0, 'str');
-  is-zero: is-zero(0px, 0rem, 0, 0%);
-  is-zero: is-zero(0px, 0rem, 0, 1%);
+  is-number: __is-number(0px, 0rem, 0, (1 2));
+  is-number: __is-number(0px, 0rem, 0, 'str');
+  is-zero: __is-zero(0px, 0rem, 0, 0%);
+  is-zero: __is-zero(0px, 0rem, 0, 1%);
   $zero: 0px;
   zero: $zero;
   zero: $zero * 0 + 1;
   zero: $zero / ($zero * 0 + 1);
-  num: is-number(1em, 'str');
-  num: is-number((1 2), 2);
+  num: __is-number(1em, 'str');
+  num: __is-number((1 2), 2);
   num: type-of((2 3));
   $test: 'hello / (world)';
   num: __str-last-index($test, 'rld');
@@ -19,16 +18,16 @@
   num: __str-last-index($test, 'l');
   num: __str-last-index($test, 'rl');
   num: __str-last-index($test, ')') str-length($test);
-  pre: __calc-format(5);
-  pre: __calc-format(0);
-  pre: __calc-format(5em);
-  pre: __calc-format(null);
-  pre: __calc-format(calc(1em + 3%));
+  pre: __format(5);
+  pre: __format(0);
+  pre: __format(5em);
+  pre: __format(null);
+  pre: __format(calc(1em + 3%));
   pre: unquote('1em + 3%');
-  pre: __calc-format(unquote('1em + 3%'));
-  pre: __calc-format('string');
-  pre: __calc-format(string);
-  pre: __calc-format(add(1em, 1vw));
+  pre: __format(unquote('1em + 3%'));
+  pre: __format('string');
+  pre: __format(string);
+  pre: __format(add(1em, 1vw));
 }
 
 .hello-world {
