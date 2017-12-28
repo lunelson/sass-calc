@@ -1,0 +1,97 @@
+@import '../index';
+
+// Test a function
+// @author Matthias Totschnig
+// @param {String} $function — the function to test
+// @param {List} $arglist — the argument to pass to the function. 
+//                          To pass multiple arguments, use a comma-separated list. 
+//                          To pass a list as an argument to the function to test, use a space-separated list.
+// @param {Any} $expected — The expected return value of the function
+// @example test(my-function, (1, 2, 3), 6) will test if my-function( 1, 2, 3 ) returns 6
+// @example test(my-function, (1 2 3), false) will test if my-function( (1 2 3) ) returns false;
+@function test($function, $arglist, $expected) {
+
+  // Call the function
+  $result: null;
+  @if list-separator($arglist) == 'space' {
+    $result: call($function, $arglist);
+  } @else {
+    $result: call($function, $arglist...);
+  }
+
+  // Check the result
+  $success: $result == $expected;
+
+  // Necessary because 5 == 5% is true
+  @if type-of($result) == type-of($expected) == 'number'{
+    @if unit($result) != unit($expected) {
+      $success: false;
+    }
+  }
+
+  // Throw a warning if the test failed
+  @if not $success {
+    @warn 'TEST FAILED';
+  }
+
+  // Changes how strings and null are displayed, does not affect test results
+  $argstring: 'null';
+  @if $arglist != null {
+    @for $i from 1 through length($arglist) {
+      $arg: nth($arglist, $i);
+      @if $arg == null { $arglist: set-nth($arglist, $i, 'null') }
+      @else if type-of($arg) == string { $arglist: set-nth($arglist, $i,'\'#{$arg}\'') }
+    }
+    $argstring: $arglist;
+  }
+
+  // Return the debug log
+  @return '#{$function}(#{$argstring}) ==> #{$result} (expected#{if($success, "", " " + $expected)})';
+}
+
+
+@debug 'IS-NUMBER';
+@debug test(is-number, 0px, true);
+@debug test(is-number, 1px, true);
+@debug test(is-number, 0, true);
+@debug test(is-number, 'str', false);
+@debug test(is-number, (1 2), false);
+@debug test(is-number, (0px, 'str'), false);
+@debug test(is-number, (0px, 1px), true);
+
+@debug '';
+@debug 'IS-ZERO';
+@debug test(is-zero, 0, true);
+@debug test(is-zero, 0px, true);
+@debug test(is-zero, 0rem, true);
+@debug test(is-zero, 0%, true);
+@debug test(is-zero, 1, false);
+@debug test(is-zero, 1%, false);
+@debug test(is-zero, (0, 0), true);
+@debug test(is-zero, (0, 1), false);
+
+@debug '';
+@debug 'STR-LAST-INDEX';
+$test: 'hello / (world)';
+@debug test(str-last-index, ($test, 'rld'), 12);
+@debug test(str-last-index, ($test, 'o'), 11);
+@debug test(str-last-index, ($test, 'l'), 13);
+@debug test(str-last-index, ($test, 'rl'), 12);
+@debug test(str-last-index, ($test, ')'), 15);
+@debug test(str-length, $test, 15);
+
+@debug '';
+@debug 'FORMAT';
+@debug test(format, 5, 5%);
+@debug test(format, 0, 0%);
+@debug test(format, 5em, 5em);
+@debug test(format, null, error("invalid value for calc expression"));
+@debug test(format, false, error("invalid value for calc expression"));
+@debug test(format, calc(1em + 3%), '(1em + 3%)');
+@debug test(format, 'string', '(string)');
+@debug test(format, string, '(string)');
+
+@debug '';
+@debug 'ADD';
+@debug test(add, (1em, 1vw), calc(1em + 1vw));
+@debug test(add, (1, 2), 3);
