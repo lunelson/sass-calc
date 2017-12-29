@@ -1,0 +1,66 @@
+// Evaluates a list-form math expression
+// @author Matthias Totschnig
+// @param {List} $list — List of numbers and math character strings such as '+', '-', '/', '*', '(' or ')'
+// @return {String} String containing the result (when possible) or a calc expression
+@function math($list) {
+
+  // Handle parentheses
+  @while list-contains($list, '(') {
+    $opening-parenthesis-index: index($list, '(');
+    $closing-parenthesis-index: find-matching-closing-parenthesis($list, $opening-parenthesis-index);
+    $a: ();
+    @if $opening-parenthesis-index > 1 {
+      $a: list-slice($list, 1, $opening-parenthesis-index - 1);
+    }
+    $b: list-slice($list, $opening-parenthesis-index + 1, $closing-parenthesis-index - 1);
+    $b: math($b);
+    @if $closing-parenthesis-index < length($list) {
+      $c: list-slice($list, $closing-parenthesis-index + 1);
+      $b: join($b, $c);
+    }
+    $list: join($a, $b);
+  }
+
+  $l: ();
+  @if list-contains($list, '+') or list-contains($list, '-') {
+    $l: list-split-at-last($list, '+', '-');
+  } 
+  @else if list-contains($list, '*') or list-contains($list, '/') {
+    $l: list-split-at-last($list, '*', '/');
+  }
+
+  $a: nth($l, 1);
+  $b: nth($l, 2);
+  $operation: nth($l, 3);
+
+  @if not is-number($a) {
+    $a: math($a);
+  }
+
+  @if not is-number($b) {
+    $b: math($b);
+  }
+
+  @return call-function($operation, $a, $b);
+}
+
+$operations: ('+' '-' '*' '/');
+$functions: ('add' 'subtract' 'multiply' 'divide');
+
+@function call-function($operation, $args...) {
+  $index: index($operations, $operation);
+  $function: nth($functions, $index);
+  @return call($function, $args...);
+}
+
+@function find-matching-closing-parenthesis($list, $op) {
+  $count: 0;
+  @for $i from $op + 1 through length($list) {
+    $element: nth($list, $i);
+    @if $element == '(' { $count: $count + 1; }
+    @if $element == ')' {
+      @if $count == 0 {  @return $i; }
+      @else { $count: $count - 1; }
+    }
+  }
+}
