@@ -79,15 +79,21 @@
     @return false;
   }
 
-  // get the subslist from the first element to the separator
-  $a: list-slice($list, 1, $index - 1);
+  // If there is one, get the sublist from the first element to the separator
+  $a: null;
+  $b: null;
+  @if $index > 1 {
+    $a: list-slice($list, 1, $index - 1);
+  }
   // and from the separator to the end of the list
-  $b: list-slice($list, $index + 1);
+  @if $index < length($list) {
+    $b: list-slice($list, $index + 1);
+  }
 
+  // Avoid returning single-element lists
   @if length($a) == 1 {
     $a: nth($a, 1);
   }
-
   @if length($b) == 1 {
     $b: nth($b, 1);
   }

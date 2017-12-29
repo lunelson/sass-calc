@@ -23,7 +23,7 @@
   $success: $result == $expected;
 
   // Necessary because 5 == 5% is true
-  @if type-of($result) == type-of($expected) == 'number'{
+  @if type-of($result) == 'number' and type-of($expected) == 'number'{
     @if unit($result) != unit($expected) {
       $success: false;
     }
@@ -96,6 +96,13 @@
 @debug test(is-string, ('string' 'abc'), false);
 
 @debug '';
+@debug 'STRIP-UNIT';
+@debug test(strip-unit, 1px, 1);
+@debug test(strip-unit, 3.5em, 3.5);
+@debug test(strip-unit, 0wv, 0);
+@debug test(strip-unit, -1ex, -1);
+
+@debug '';
 @debug 'FORMAT';
 @debug test(format, 5, 5%);
 @debug test(format, 0, 0%);
@@ -143,13 +150,14 @@ $test: 'hello / (world)';
 @debug '';
 @debug 'LIST-SPLIT-AT-LAST';
 @debug test(list-split-at-last, ((3 '-' 1 '-' 2), '-'), ((3 '-' 1) 2 '-'));
-@debug test(list-split-at-last, (('a', 'b', 'c'), 'c'), (('a' 'b') null 'c'));
+@debug test(list-split-at-last, (('a' 'b' 'c'), 'c'), (('a' 'b') null 'c'));
+@debug test(list-split-at-last, (('a' 'b' 'c'), 'a'), (null ('b' 'c') 'a'));
 
 @debug '';
 @debug 'CAN-SUM';
 @debug test(can-sum, (1px, 2px), true);
 @debug test(can-sum, (1px, 2em), false);
-@debug test(can-sum, (1px, 2), false);
+@debug test(can-sum, (1px, 2), true);
 @debug test(can-sum, (1.5, 2), true);
 @debug test(can-sum, ('abc', 1), false);
 
@@ -174,7 +182,8 @@ $test: 'hello / (world)';
 @debug 'ADD';
 @debug test(add, (1, 2), 3);
 @debug test(add, (1px, 2px), 3px);
-@debug test(add, (0em, 0rem), 0);
+@debug test(add, (1px, 2), 3px);
+@debug test(add, (0em, 0rem), 0%);
 @debug test(add, (0em, 1rem), 1rem);
 @debug test(add, (-1em, 0rem), -1em);
 @debug test(add, (1em, 1vw), 'calc(1em + 1vw)');
@@ -195,7 +204,7 @@ $test: 'hello / (world)';
 @debug 'MULTIPLY';
 @debug test(multiply, (3, 2), 6);
 @debug test(multiply, (-3, 2), -6);
-@debug test(multiply, (0, -7), 0);
+@debug test(multiply, (0, -7), 0%);
 @debug test(multiply, (-2px, -3), 6px);
 @debug test(multiply, (1px, 2), 2px);
 @debug test(multiply, (-1.5px, 2em), 'calc(-1.5px * 2em)');
@@ -211,10 +220,10 @@ $test: 'hello / (world)';
 @debug test(divide, (2, 2), 1);
 @debug test(divide, (1px, 2), 0.5px);
 @debug test(divide, (1px, -2), -0.5px);
-@debug test(divide, (0, 2), 0);
-@debug test(divide, (0, -1px), 0);
+@debug test(divide, (0, 2), 0%);
+@debug test(divide, (0, -1px), 0%);
 @debug test(divide, (1.5px, 1em), 'calc(1.5px / 1em)');
-@debug test(divide, (6, 2em), 'calc(6 / 2em)');
+@debug test(divide, (6, 2em), 'calc(6% / 2em)');
 
 @debug '';
 @debug 'MATH';
