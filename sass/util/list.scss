@@ -54,7 +54,7 @@
 
 
 // Returns the parts of a list before and after the last occurence of a given separator
-// @example ('abc' '-' 'def' '-' 'ghi'), '-' —> ( ('abc' '-' 'def'), ('ghi') )
+// @example ('abc' '-' 'def' '-' 'ghi'), '-' —> ( ('abc' '-' 'def'), ('ghi'), '-' )
 // @author Matthias Totschnig
 // @param {List} $list — List to be splitted
 // @param {Any} $separator — Element splitting the list
@@ -92,6 +92,6 @@
     $b: nth($b, 1);
   }
 
-  // return a list of two lists
-  @return ($a, $b, $chosen-separator);
+  // return a list of two lists and the separator
+  @return ($a $b $chosen-separator);
 }
