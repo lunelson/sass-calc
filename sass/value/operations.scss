@@ -1,0 +1,102 @@
+// Adds a number to a value
+// @author Matthias Totschnig
+// @param {List} $value — the value to add the number to
+// @param {Number} $number — the number to be added to the value
+// @return {List} the updated value
+@function add-number($value, $number) {
+  $unit: get-unit($number);
+  $amount: strip-unit($number);
+
+  @if has-unit($value, $unit) {
+    $amount: $amount + get-amount($value, $unit);
+    $value: set-amount($value, $unit, $amount);
+  }
+  @else {
+    $value: append($value, $number, space);
+  }
+  @return $value;
+}
+
+// Subtracts a number from a value
+// @author Matthias Totschnig
+// @param {List} $value — the value to subtract the number from
+// @param {Number} $number — the number to be subtracted from the value
+// @return {List} — the updated value
+@function subtract-number($value, $number) {
+  @return add-number($value, $number * -1);
+}
+
+// Multiplies a value by a number
+// @author Matthias Totschnig
+// @param {List} $value — the value to be multiplied
+// @param {Number} $number — the number to multiply by
+// @return {List} — the updated value
+@function multiply-number($value, $number) {
+  @each $num in $value {
+    $unit: get-unit($num);
+    $amount: strip-unit($num) * $number;
+    $value: set-amount($value, $unit, $amount);
+  }
+  @return $value;
+}
+
+// Divides a value by a number
+// @author Matthias Totschnig
+// @param {List} $value — the value to be divided
+// @param {Number} $number — the number to divide by
+// @return {List} — the updated value
+@function divide-number($value, $number) {
+  @return multiply-number($value, 1 / $number);
+}
+
+
+// Adds two values
+// @author Matthias Totschnig
+// @param {List} $value — the intial value
+// @param {List} $value2 — the value to add
+// @return {List} — the sum of the values
+@function add-value($value, $value2) {
+  @each $number in $value2 {
+    $value: add-number($value, $number);
+  }
+  @return $value;
+}
+
+// Subtracts a value from a value
+// @author Matthias Totschnig
+// @param {List} $value — the initial value
+// @param {List} $value2 — the value to subtract
+// @return {List} — the difference between the values
+@function subtract-value($value, $value2) {
+  @each $number in $value2 {
+    $value: subtract-number($value, $number);
+  }
+  @return $value;
+}
+
+// Multiplies two values
+// Note: one of the two values has to be made of a single unitless number
+// @author Matthias Totschnig
+// @param {List} $value — the intitial value
+// @param {List} $value2 — the value to multiply by
+// @return {List} — the product of the values
+@function multiply-value($value, $value2) {
+  @if can-multiply($value, $value2) {
+    $number: nth($value2, 1);
+    $value: multiply-number($value, $number);
+  }
+  @return $value;
+}
+
+// Divides a value by a value
+// @author Matthias Totschnig
+// @param {List} $value — the initial value
+// @param {List} $value2 — the value to divide by, made of a single unitless number
+// @return {List} — the quotient of the values
+@function divide-value($value, $value2) {
+  @if can-divide($value, $value2) {
+    $number: nth($value2, 1);
+    $value: divide-number($value, $number);
+  }
+  @return $value;
+}

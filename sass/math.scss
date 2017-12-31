@@ -1,8 +1,17 @@
-// Evaluates a list-form math expression
+// Gets a browser-readable result from a list-form math expression
 // @author Matthias Totschnig
 // @param {List} $list — List of numbers and math character strings such as '+', '-', '/', '*', '(' or ')'
-// @return {String} String containing the result (when possible) or a calc expression
+// @return {Number or String} The result (when possible) or a calc expression
 @function math($list) {
+  $value: list-math($list);
+  @return to-expression($value);
+}
+
+// Evaluates the value of a list-form math expression
+// @author Matthias Totschnig
+// @param {List} $list — List of numbers and math character strings such as '+', '-', '/', '*', '(' or ')'
+// @return {List} String containing the result (when possible) or a calc expression
+@function list-math($list) {
 
   // Handle parentheses
   @while list-contains($list, '(') {
@@ -13,7 +22,7 @@
       $a: list-slice($list, 1, $opening-parenthesis-index - 1);
     }
     $b: list-slice($list, $opening-parenthesis-index + 1, $closing-parenthesis-index - 1);
-    $b: math($b);
+    $b: list-math($b);
     @if $closing-parenthesis-index < length($list) {
       $c: list-slice($list, $closing-parenthesis-index + 1);
       $b: join($b, $c);
@@ -33,23 +42,23 @@
   $b: nth($l, 2);
   $operation: nth($l, 3);
 
-  @if not is-number($a) {
-    $a: math($a);
-  }
+  @if type-of($a) == list { $a: list-math($a); }
+  @if type-of($b) == list { $b: list-math($b); }
+  @if type-of($a) == number { $a: value($a); }
+  @if type-of($b) == number { $b: value($b); }
 
-  @if not is-number($b) {
-    $b: math($b);
-  }
-
-  @return call-function($operation, $a, $b);
+  @return call-operation($operation, $a, $b);
 }
 
-$operations: ('+' '-' '*' '/');
-$functions: ('add' 'subtract' 'multiply' 'divide');
+$operations: (
+  '+': 'add-value',
+  '-': 'subtract-value',
+  '*': 'multiply-value',
+  '/': 'divide-value'
+);
 
-@function call-function($operation, $args...) {
-  $index: index($operations, $operation);
-  $function: nth($functions, $index);
+@function call-operation($operation, $args...) {
+  $function: map-get($operations, $operation);
   @return call($function, $args...);
 }
 
