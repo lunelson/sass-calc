@@ -1,0 +1,63 @@
+// A value is a list of numbers with different units
+// like (1px 1em) or (20%) or (1.5em 7ex 3vmax) or (20 30vh)
+
+// Makes a value out of numbers
+// @author Matthias Totschnig
+// @params {Numbers} $numbers... — the numbers to add to the value
+// @return {List} — the resulting value
+// @example value(12em, 17px, 3px) —> (12em 20px)
+@function value($numbers...) {
+  $value: ();
+  @each $number in $numbers {
+    @if is-number($number) and not is-zero($number) {
+      $value: add-number($value, $number);
+    }
+  }
+  @return $value;
+}
+
+// Gets the amount of the specified unit in a value
+// @author Matthias Totschnig
+// @param {List} $value — the value to search
+// @param {Number} $unit — the unit to search for
+// @return {Number} — the amount of $unit in $value
+// @example get-amount(2px 3em), 1em  —>  3
+@function get-amount($value, $unit) {
+  $index: unit-index($value, $unit);
+  @return strip-unit(nth($value, $index));
+}
+
+// Sets the amount of the specified unit in a value
+// @author Matthias Totschnig
+// @param {List} $value — the value to modify
+// @param {Number} $unit — the unit of the number to modify
+// @param {Number} $amount — the new amount to be set
+// @return {List} — the updated value
+// @example set-amount((2px 3em), 1em, 6)  —>  (2px 6em)
+@function set-amount($value, $unit, $amount) {
+  $index: unit-index($value, $unit);
+  @if $amount == 0 {
+    $value: list-remove-nth($value, $index);
+  } @else {
+    $value: set-nth($value, $index, $amount * $unit);
+  }
+  @return $value;
+}
+
+// Transforms a value into a number or a calc expression that can be interpreted by the browser
+// @author Matthias Totschnig
+// @param {List} $value — the value to convert
+// @return {String or Number} — the resulting number or calc() expression
+@function to-expression($value) {
+  @if length($value) == 0 { @return 0; }
+  @else if length($value) == 1 { @return nth($value, 1); }
+  @else {
+    $str: 'calc(' + nth($value, 1);
+    @for $i from 2 through length($value) {
+      $number: nth($value, $i);
+      $str: $str + ' + ' + $number;
+    }
+    $str: $str + ')';
+    @return $str;
+  }
+}

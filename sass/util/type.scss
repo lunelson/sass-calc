@@ -2,10 +2,22 @@
 
 // Check if all elements are numbers
 // @author Lu Nelson
-// @params {Any} args... — the elements to evaluate
+// @params {Any} $args... — the elements to evaluate
 // @return {Boolean} — true if all the elements are numbers, else false
 @function is-number($args...) {
   @each $arg in $args { @if type-of($arg) != 'number' { @return false; } }
+  @return true;
+}
+
+// Check if all elements are values (see value/value.scss)
+// @author Matthias Totschnig
+// @params {Any} $args... — the elements to evaluate
+// @return {Boolean} — true if all the elements are values, else false
+@function is-value($args...) {
+  @each $arg in $args { 
+    @if type-of($arg) != list { @return false; }
+    @if not is-number($arg...) { @return false; }
+  }
   @return true;
 }
 
@@ -26,16 +38,4 @@
   @if not is-number($args...) { @return false; }
   @each $arg in $args { @if strip-unit($arg) != 0 { @return false; } }
   @return true;
-}
-
-// Remove the unit of a length
-// @author Hugo Giraudel
-// @param {Number} $number - Number to remove unit from
-// @return {Number} - Unitless number
-@function strip-unit($number) {
-  @if type-of($number) == 'number' and not unitless($number) {
-    @return $number / ($number * 0 + 1);
-  }
-
-  @return $number;
 }

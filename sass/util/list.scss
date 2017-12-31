@@ -36,6 +36,22 @@
 }
 
 
+// Removes an element in a list
+// @author Matthias Totschnig
+// @param {List} $list — the list to remove the element from
+// @param {Number} $n — the index of the item to remove
+// @return {List} — the updated list
+@function list-remove-nth($list, $n) {
+  $split: list-split($list, $n);
+  $a: nth($split, 1);
+  $b: nth($split, 2);
+  @if $a == null and $b == null { @return (); }
+  @if $a == null { @return join((), $b); }
+  @if $b == null { @return join((), $a); }
+  @return join($a, $b);
+}
+
+
 // Find the index of the last occurence of an element in a list
 // @author Matthias Totschnig
 // @param {List} $list — The list to search
@@ -53,14 +69,45 @@
 }
 
 
+// Splits a list at a given index
+// @author Matthias Totschnig
+// @param {List} $list
+// @param {Number} $index
+// @return {List} a list of the part before and the part after $index
+// @example list-split(('a' 'b' 'c' 'd' 'e'), 3) —> (('a' 'b') ('d' 'e'))
+@function list-split($list, $index) {
+  $a: null;
+  $b: null;
+
+  // If there is one, get the sublist from the first element to $index
+  @if $index > 1 {
+    $a: list-slice($list, 1, $index - 1);
+  }
+  // and from $index to the end of the list
+  @if $index < length($list) {
+    $b: list-slice($list, $index + 1);
+  }
+
+  // Avoid returning single-element lists
+  @if length($a) == 1 {
+    $a: nth($a, 1);
+  }
+  @if length($b) == 1 {
+    $b: nth($b, 1);
+  }
+
+  @return ($a $b);
+}
+
 // Returns the parts of a list before and after the last occurence of a given separator
 // @example ('abc' '-' 'def' '-' 'ghi'), '-' —> ( ('abc' '-' 'def'), ('ghi'), '-' )
 // @author Matthias Totschnig
 // @param {List} $list — List to be splitted
 // @param {Any} $separator — Element splitting the list
 // @param {Any} $or-separator — Optionally, another possible element. The last occurence of any of the separators will be taken
-// @return {List} — List of two lists from the start to the separator and from the separator to the end
-//                  If an optional separator was provided, a third element, the chosen separator, will be appended to the list
+// @return {List} — List of:  - the list from the start to the separator 
+//                            - the list from the separator to the end
+//                            - the chosen separator
 @function list-split-at-last($list, $separator, $or-separator: null) {
   // index of last separator in list
   $index: list-last-index($list, $separator);
@@ -79,25 +126,8 @@
     @return false;
   }
 
-  // If there is one, get the sublist from the first element to the separator
-  $a: null;
-  $b: null;
-  @if $index > 1 {
-    $a: list-slice($list, 1, $index - 1);
-  }
-  // and from the separator to the end of the list
-  @if $index < length($list) {
-    $b: list-slice($list, $index + 1);
-  }
+  $parts: list-split($list, $index);
+  $parts: append($parts, $chosen-separator);
 
-  // Avoid returning single-element lists
-  @if length($a) == 1 {
-    $a: nth($a, 1);
-  }
-  @if length($b) == 1 {
-    $b: nth($b, 1);
-  }
-
-  // return a list of two lists and the separator
-  @return ($a $b $chosen-separator);
+  @return $parts;
 }

@@ -1,0 +1,20 @@
+// Gets the unit of a number
+// @author Matthias Totschnig
+// @param {Number} $number — Number to get unit from
+// @return {Number} — the unit of $number
+@function get-unit($number) {
+  @if not is-number($number) { @error('$number for `get-unit` has to be a number'); }
+  @return $number * 0 + 1;
+}
+
+// Removes the unit of a number
+// @author Hugo Giraudel
+// @param {Number} $number - Number to remove unit from
+// @return {Number} - Unitless number
+@function strip-unit($number) {
+  @if type-of($number) == 'number' and not unitless($number) {
+    @return $number / get-unit($number);
+  }
+
+  @return $number;
+}

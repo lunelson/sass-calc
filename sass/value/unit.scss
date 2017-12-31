@@ -1,0 +1,37 @@
+// Gets the units of a value
+// @author Matthias Totschnig
+// @param {List} $value — the value to get the units from
+// @return {List} — the units of the value
+// @example get-units((12px 5em)) —> (1px 1em)
+@function get-units($value) {
+  $units: ();
+  @each $number in $value {
+    $unit: get-unit($number);
+    $units: append($units, $unit, space);
+  }
+  @return $units;
+}
+
+// Finds out whether a value has a number with a specified unit
+// @author Matthias Totschnig
+// @param {List} $value — the value to inspect
+// @param {Number} $unit — the unit to search for
+// @return {Boolean} — true if $value contains a number with a unit of $unit
+@function has-unit($value, $unit) {
+  @return list-contains(get-units($value), $unit);
+}
+
+// Get the index in the value of the number with the specified unit
+@function unit-index($value, $unit) {
+  @for $i from 1 through length($value) {
+    $number: nth($value, $i);
+    @if get-unit($number) == $unit { @return $i; }
+  }
+}
+
+// Like `unitless()` but for values
+// @param {List} $value — the value to evaluate
+// @return {Boolean} — true if and only if the value contains one unitless number
+@function is-unitless($value) {
+  @return length($value) == 1 and unitless(nth($value, 1));
+}

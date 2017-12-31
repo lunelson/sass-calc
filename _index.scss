@@ -12,9 +12,15 @@ __\/\\\\\\\\\\___/\\\\\\\\\\__\/\\\\\\\\\\_\/\\\\\\\\\\_\///////////___/\\\_____
      _____________________________________________________________________________________________________________________________
 */
 
+@import 'sass/util/number';
 @import 'sass/util/type';
 @import 'sass/util/operability';
 @import 'sass/util/string';
 @import 'sass/util/list';
+
+@import 'sass/value/unit';
+@import 'sass/value/operations';
+@import 'sass/value/value';
+
 @import 'sass/operations';
 @import 'sass/math';
