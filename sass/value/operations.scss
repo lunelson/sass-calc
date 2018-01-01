@@ -1,3 +1,19 @@
+$operations: (
+  '+': 'add-value',
+  '-': 'subtract-value',
+  '*': 'multiply-value',
+  '/': 'divide-value'
+);
+
+// Calls an operation with given arguments
+// @param {String} $operation — '+', '-', '*' or '/' 
+// @params {Lists} $args... — the values to pass as arguments for the operations
+// @return {List} the resulting value
+@function call-operation($operation, $args...) {
+  $function: map-get($operations, $operation);
+  @return call($function, $args...);
+}
+
 // Adds a number to a value
 // @author Matthias Totschnig
 // @param {List} $value — the value to add the number to
@@ -84,6 +100,8 @@
   @if can-multiply($value, $value2) {
     $number: nth($value2, 1);
     $value: multiply-number($value, $number);
+  } @else {
+    @warn 'Cannot multiply two unitful values';
   }
   @return $value;
 }
@@ -97,6 +115,8 @@
   @if can-divide($value, $value2) {
     $number: nth($value2, 1);
     $value: divide-number($value, $number);
+  } @else  {
+    @warn 'Cannot divide by unitful value';
   }
   @return $value;
 }

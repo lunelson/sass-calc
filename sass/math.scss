@@ -50,18 +50,6 @@
   @return call-operation($operation, $a, $b);
 }
 
-$operations: (
-  '+': 'add-value',
-  '-': 'subtract-value',
-  '*': 'multiply-value',
-  '/': 'divide-value'
-);
-
-@function call-operation($operation, $args...) {
-  $function: map-get($operations, $operation);
-  @return call($function, $args...);
-}
-
 @function find-matching-closing-parenthesis($list, $op) {
   $count: 0;
   @for $i from $op + 1 through length($list) {

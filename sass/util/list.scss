@@ -31,7 +31,10 @@
 // Checks if a list contains an element
 // @author Matthias Totschnig
 @function list-contains($list, $element) {
-  @each $item in $list { @if $item == $element { @return true; } }
+  @each $item in $list {
+    @if is-number($item, $element) { @if unit($item) == unit($element) { @return true; } }
+    @else if $item == $element { @return true; } 
+  }
   @return false;
 }
 

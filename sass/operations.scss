@@ -1,33 +1,39 @@
 // operations: add, subtract, multiply, divide
 
-@function add($expr1, $expr2){
-  @if is-number($expr2) and $expr2 < 0 { @return subtract($expr1, $expr2/-1); }
-  @if is-zero($expr1, $expr2) { @return 0%; }
-  @if not $expr1 or is-zero($expr1) { @return $expr2; }
-  @if not $expr2 or is-zero($expr2) { @return $expr1; }
-  @if can-sum($expr1, $expr2) { @return $expr1 + $expr2; }
-  @return unquote('calc(#{format($expr1)} + #{format($expr2)})');
+// Type: {Map}
+// Key: {String} calc expression
+// Value: {List} value
+// add, subtract, multiply and divide add resulting values to this map with the corresponding strings of
+// calc expression they are returning as a key. Whenever one of these functions encounters a string as an
+// argument they fetch the corresponding value from this map to proceed with further calculations.
+$temp: ();
+
+@function add($a, $b){
+  @return operation($a, $b, '+');
 }
 
-@function subtract($expr1, $expr2){
-  @if is-number($expr2) and $expr2 < 0 { @return add($expr1, $expr2/-1); }
-  @if is-zero($expr1, $expr2) { @return 0%; }
-  @if not $expr1 or is-zero($expr1) { @return $expr2; }
-  @if not $expr2 or is-zero($expr2) { @return $expr1; }
-  @if can-sum($expr1, $expr2) { @return $expr1 - $expr2; }
-  @return unquote('calc(#{format($expr1)} - #{format($expr2)})');
+@function subtract($a, $b) {
+  @return operation($a, $b, '-');
 }
 
-@function multiply($expr, $n){
-  @if is-zero($expr) or is-zero($n) { @return 0%; }
-  @if not $n or type-of($n) != 'number' { @return error("invalid factor"); }
-  @if can-multiply($expr, $n) { @return $expr * $n; }
-  @return unquote('calc(#{format($expr)} * #{$n})');
+@function multiply($a, $b){
+  @return operation($a, $b, '*');
 }
 
-@function divide($expr, $n){
-  @if is-zero($expr) { @return 0%; }
-  @if not $n or type-of($n) != 'number' or is-zero($n) { @return error("invalid divisor"); }
-  @if can-divide($expr, $n) { @return $expr / $n; }
-  @return unquote('calc(#{format($expr)} / #{$n})');
+@function divide($a, $b){
+  @return operation($a, $b, '/');
+}
+
+@function operation($a, $b, $operation) {
+  $a: get-value($a);
+  $b: get-value($b);
+  $result: call-operation($operation, $a, $b);
+  $expression: to-expression($result);
+  @if is-string($expression) { $temp: map-merge($temp, ($expression: $result)) !global; }
+  @return $expression;
+}
+
+@function get-value($a) {
+  @if is-number($a) { @return value($a); }
+  @else { @return map-get($temp, $a); }
 }

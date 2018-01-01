@@ -112,27 +112,6 @@
 @debug test(strip-unit, -1ex, -1);
 
 @debug '';
-@debug 'FORMAT';
-@debug test(format, 5, 5%);
-@debug test(format, 0, 0%);
-@debug test(format, 5em, 5em);
-@debug test(format, null, error("invalid value for calc expression"));
-@debug test(format, false, error("invalid value for calc expression"));
-@debug test(format, calc(1em + 3%), '(1em + 3%)');
-@debug test(format, 'string', '(string)');
-@debug test(format, string, '(string)');
-
-@debug '';
-@debug 'STR-LAST-INDEX';
-$test: 'hello / (world)';
-@debug test(str-last-index, ($test, 'rld'), 12);
-@debug test(str-last-index, ($test, 'o'), 11);
-@debug test(str-last-index, ($test, 'l'), 13);
-@debug test(str-last-index, ($test, 'rl'), 12);
-@debug test(str-last-index, ($test, ')'), 15);
-@debug test(str-length, $test, 15);
-
-@debug '';
 @debug 'LIST-SLICE';
 @debug test(list-slice, (('a' 'b' 'c'), 3, 3), append((), 'c')); // One-element list
 @debug test(list-slice, (('a' 'b' 'c'), 1, 3), ('a' 'b' 'c'));
@@ -197,17 +176,17 @@ $test: 'hello / (world)';
 @debug test(can-divide, (value(1.5), value(2)), true);
 @debug test(can-divide, ('abc', 1), false);
 
-@debug ''; 
+@debug '';
 @debug 'ADD';
 @debug test(add, (1, 2), 3);
 @debug test(add, (1px, 2px), 3px);
-@debug test(add, (1px, 2), 3px);
-@debug test(add, (0em, 0rem), 0%);
+@debug test(add, (1px, 2), 'calc(1px + 2)');
+@debug test(add, (0em, 0rem), 0);
 @debug test(add, (0em, 1rem), 1rem);
 @debug test(add, (-1em, 0rem), -1em);
 @debug test(add, (1em, 1vw), 'calc(1em + 1vw)');
 @debug test(add, (1.5em, 1rem), 'calc(1.5em + 1rem)');
-@debug test(add, (-1em, -2rem), 'calc(-1em - 2rem)'); 
+@debug test(add, (-1em, -2rem), 'calc(-1em + -2rem)'); 
 
 @debug '';
 @debug 'SUBTRACT';
@@ -216,14 +195,14 @@ $test: 'hello / (world)';
 @debug test(subtract, (1px, 2px), -1px);
 @debug test(subtract, (2px, 1px), 1px);
 @debug test(subtract, (1em, -1.5em), 2.5em);
-@debug test(subtract, (1em, 1vw), 'calc(1em - 1vw)');
+@debug test(subtract, (1em, 1vw), 'calc(1em + -1vw)');
 @debug test(subtract, (-1em, -2rem), 'calc(-1em + 2rem)');
 
 @debug '';
 @debug 'MULTIPLY';
 @debug test(multiply, (3, 2), 6);
 @debug test(multiply, (-3, 2), -6);
-@debug test(multiply, (0, -7), 0%);
+@debug test(multiply, (0, -7), 0);
 @debug test(multiply, (-2px, -3), 6px);
 @debug test(multiply, (1px, 2), 2px);
 @debug test(multiply, (-1.5px, 2em), 'calc(-1.5px * 2em)');
@@ -239,10 +218,14 @@ $test: 'hello / (world)';
 @debug test(divide, (2, 2), 1);
 @debug test(divide, (1px, 2), 0.5px);
 @debug test(divide, (1px, -2), -0.5px);
-@debug test(divide, (0, 2), 0%);
-@debug test(divide, (0, -1px), 0%);
-@debug test(divide, (1.5px, 1em), 'calc(1.5px / 1em)');
-@debug test(divide, (6, 2em), 'calc(6% / 2em)');
+@debug test(divide, (0, 2), 0);
+@debug test(divide, (1.5px, 1em), 'calc(1.5px * 1em)');
+@debug test(divide, (6, 2em), 'calc(3% * 1em)'); 
+
+@debug '';
+@debug 'CHAINED OPERATIONS';
+@debug test(divide, (subtract(1.5em, 1em), 2), 0.25em);
+@debug test(subtract, (0.25em, add(1em, 1ex)), 'calc(-0.75em + -1ex)');
 
 @debug '';
 @debug 'MATH';
