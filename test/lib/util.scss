@@ -44,8 +44,8 @@
 @function beautify-map-pair($pair, $is-last) {
   $key: beautify(nth($pair, 1));
   $value: beautify(nth($pair, 2));
-  //$comma: if($is-last, '', ',');
-  @return '(#{$key}: #{$value})';
+  $comma: if($is-last, '', ',');
+  @return '#{$key}: #{$value}#{$comma}';
 }
 
 // Create a single-element, space-separated list

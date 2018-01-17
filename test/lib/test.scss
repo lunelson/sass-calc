@@ -1,3 +1,4 @@
+@import 'debug';
 @import 'util';
 
 $function: null;
@@ -37,16 +38,4 @@ $result: null;
 
   $expected: if($success, '', ' ' + beautify($expected));
   @return '(expected#{$expected})';
-}
-
-// Is it a bird? Is it a plane?
-@function what-is($item, $title: 'debug') {
-  @debug '';
-  @debug to-upper-case($title);
-  @debug 'Representation: ';
-  @debug '  Sass: #{$item}';
-  @debug '  test-sass: #{beautify($item)}';
-  @debug 'Type: #{type-of($item)}';
-  @debug 'Length: #{length($item)}';
-  @return '';
 }
