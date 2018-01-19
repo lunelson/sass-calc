@@ -1,240 +1,108 @@
+@import 'lib/test'; 
 @import '../index';
 
-// Test a function
-// @author Matthias Totschnig
-// @param {String} $function — the function to test
-// @param {List} $arglist — the argument to pass to the function. 
-//                          To pass multiple arguments, use a comma-separated list. 
-//                          To pass a list as an argument to the function to test, use a space-separated list.
-// @param {Any} $expected — The expected return value of the function
-// @example test(my-function, (1, 2, 3), 6) will test if my-function( 1, 2, 3 ) returns 6
-// @example test(my-function, (1 2 3), false) will test if my-function( (1 2 3) ) returns false;
-@function test($function, $arglist, $expected) {
+@debug function(is-number);
+@debug in(0px) + out(true);
+@debug in(1px) + out(true);
+@debug in(0) + out(true);
+@debug in('str') + out(false);
+@debug in((1 2)) + out(false);
+@debug in(0px, 'str') + out(false);
+@debug in(0px, 1px) + out(true);
 
-  // Call the function
-  $result: null;
-  @if list-separator($arglist) == 'space' {
-    $result: call($function, $arglist);
-  } @else {
-    $result: call($function, $arglist...);
-  }
+@debug function(is-zero);
+@debug in(0) + out(true);
+@debug in(0px) + out(true);
+@debug in(0rem) + out(true);
+@debug in(0%) + out(true);
+@debug in(1) + out(false);
+@debug in(1%) + out(false);
+@debug in(0, 0) + out(true);
+@debug in(0, 1) + out(false);
 
-  // Check the result
-  $success: $result == $expected;
+@debug function(is-string);
+@debug in(abc) + out(true);
+@debug in('abc') + out(true);
+@debug in("abc") + out(true);
+@debug in('1') + out(true);
+@debug in(1) + out(false);
+@debug in(abc, 'def') + out(true);
+@debug in(abc, 1) + out(false);
+@debug in(('abc' 'def')) + out(false);
 
-  // Necessary because 5 == 5% is true
-  @if type-of($result) == 'number' and type-of($expected) == 'number'{
-    @if unit($result) != unit($expected) {
-      $success: false;
-    }
-  }
+@debug function(strip-unit);
+@debug in(1px) + out(1);
+@debug in(3.5em) + out(3.5);
+@debug in(0wv) + out(0);
+@debug in(-1ex) + out(-1);
 
-  // Throw a warning if the test failed
-  @if not $success {
-    @warn 'TEST FAILED';
-  }
+@debug function(list-slice);
+@debug in(('a' 'b' 'c'), 3, 3) + out(l('c'));
+@debug in(('a' 'b' 'c'), 1, 3) + out(('a' 'b' 'c'));
+@debug in(('a' 'b' 'c'), 1, 2) + out(('a' 'b'));
+@debug in((1 2px 3 'd' 5), 2, 4) + out((2px 3 'd'));
+@debug in(('a' 'b' 3 'd' 5 6 'g'), 2, 5) + out(('b' 3 'd' 5));
 
-  // Beautify elements (necessary to identify types, display null correctly...)
-  $argstring: beautify($arglist);
-  $result: beautify($result);
-  $expected: if($success, '', ' ' + beautify($expected));
+@debug function(list-contains);
+@debug in(('a' 'b' 'c'), 'a') + out(true);
+@debug in(('a' 'b' 'c'), 'b') + out(true);
+@debug in(('a' 'b' 'c'), 1) + out(false);
+@debug in(('a' 2px ('a' 'b' 'c')), ('a' 'b' 'c')) + out(true);
+@debug in(('a' 2px ('a' 'b' 'c')), 2px) + out(true);
+@debug in('a' 2px ('a' 'b' 'c'), 'b') + out(false);
 
-  // Return the debug log
-  @return '#{$function}(#{$argstring}) ==> #{$result} (expected#{$expected})';
-}
+@debug function(list-last-index);
+@debug in(('a' 'b' 'c'), 'a') + out(1);
+@debug in(('a' 'b' 'c'), 'b') + out(2);
+@debug in(('a' 'b' 'c'), 'c') + out(3);
+@debug in(('a' '-' 2px '-' 'c'), '-') + out(4);
 
+@debug function(list-split-at-last);
+@debug in((3 '-' 1 '-' 2), '-') + out((3 '-' 1) 2 '-');
+@debug in(('a' 'b' 'c'), 'c') + out(('a' 'b') null 'c');
+@debug in(('a' 'b' 'c'), 'a') + out((null ('b' 'c') 'a'));
 
-// Changes how strings (add quotes), lists (add parentheses), and null (not displayed otherwise) are displayed
-// @author Matthias Totschnig
-// @param {Any} $list — a list of elements
-// @return {String} — a beautified representation of the elements
-@function beautify($element) {
-  @if $element == null { @return 'null'; } 
-  @else if type-of($element) == string { @return '\'#{$element}\''; } 
-  @else if type-of($element) == list {
-    @for $i from 1 through length($element) {
-      $item: nth($element, $i);
-      $item: beautify($item);
-      $element: set-nth($element, $i, $item);
-    }
-    @if list-separator($element) == space {
-      $element: '(#{$element})';
-    }
-  }
-  @return $element;
-}
+@debug function(add);
+@debug in(1, 2) + out(3);
+@debug in(1px, 2px) + out(3px);
+@debug in(1px, 2) + out(3px);
+@debug in(0em, 0rem) + out(0);
+@debug in(0em, 1rem) + out(1rem);
+@debug in(-1em, 0rem) + out(-1em);
+@debug in(1em, 1vw) + out('calc(1em + 1vw)');
+@debug in(1.5em, 1rem) + out('calc(1.5em + 1rem)');
+@debug in(-1em, -2rem) + out('calc(-1em - 2rem)');
 
+@debug function(subtract);
+@debug in(1, 2) + out(-1);
+@debug in(2, 1) + out(1);
+@debug in(1px, 2px) + out(-1px);
+@debug in(2px, 1px) + out(1px);
+@debug in(1em, -1.5em) + out(2.5em);
+@debug in(1em, 1vw) + out('calc(1em - 1vw)');
+@debug in(-1em, -2rem) + out('calc(-1em + 2rem)');
 
-@debug 'IS-NUMBER';
-@debug test(is-number, 0px, true);
-@debug test(is-number, 1px, true);
-@debug test(is-number, 0, true);
-@debug test(is-number, 'str', false);
-@debug test(is-number, (1 2), false);
-@debug test(is-number, (0px, 'str'), false);
-@debug test(is-number, (0px, 1px), true);
+@debug function(multiply);
+@debug in(3, 2) + out(6);
+@debug in(-3, 2) + out(-6);
+@debug in(0, -7) + out(0);
+@debug in(-2px, -3) + out(6px);
+@debug in(1px, 2) + out(2px);
+@debug in(-1.5px, 2em) + out('calc(-1.5px * 2em)');
+@debug in(1px, 2px) + out('calc(1px * 2px)');
 
-@debug '';
-@debug 'IS-ZERO';
-@debug test(is-zero, 0, true);
-@debug test(is-zero, 0px, true);
-@debug test(is-zero, 0rem, true);
-@debug test(is-zero, 0%, true);
-@debug test(is-zero, 1, false);
-@debug test(is-zero, 1%, false);
-@debug test(is-zero, (0, 0), true);
-@debug test(is-zero, (0, 1), false);
+@debug function(divide);
+@debug in(1, 2) + out(0.5);
+@debug in(-1, 2) + out(-0.5);
+@debug in(1, -2) + out(-0.5);
+@debug in(-1, -2) + out(0.5);
+@debug in(1, 0.5) + out(2);
+@debug in(2, 2) + out(1);
+@debug in(1px, 2) + out(0.5px);
+@debug in(1px, -2) + out(-0.5px);
+@debug in(0, 2) + out(0);
+@debug in(6em, 2) + out(3em);
 
-@debug '';
-@debug 'IS-STRING';
-@debug test(is-string, 'string', true);
-@debug test(is-string, "123", true);
-@debug test(is-string, abc, true);
-@debug test(is-string, 1, false);
-@debug test(is-string, (abc, 'string'), true);
-@debug test(is-string, (abc, 1), false);
-@debug test(is-string, ('string' 'abc'), false);
-
-@debug '';
-@debug 'STRIP-UNIT';
-@debug test(strip-unit, 1px, 1);
-@debug test(strip-unit, 3.5em, 3.5);
-@debug test(strip-unit, 0wv, 0);
-@debug test(strip-unit, -1ex, -1);
-
-@debug '';
-@debug 'FORMAT';
-@debug test(format, 5, 5%);
-@debug test(format, 0, 0%);
-@debug test(format, 5em, 5em);
-@debug test(format, null, error("invalid value for calc expression"));
-@debug test(format, false, error("invalid value for calc expression"));
-@debug test(format, calc(1em + 3%), '(1em + 3%)');
-@debug test(format, 'string', '(string)');
-@debug test(format, string, '(string)');
-
-@debug '';
-@debug 'STR-LAST-INDEX';
-$test: 'hello / (world)';
-@debug test(str-last-index, ($test, 'rld'), 12);
-@debug test(str-last-index, ($test, 'o'), 11);
-@debug test(str-last-index, ($test, 'l'), 13);
-@debug test(str-last-index, ($test, 'rl'), 12);
-@debug test(str-last-index, ($test, ')'), 15);
-@debug test(str-length, $test, 15);
-
-@debug '';
-@debug 'LIST-SLICE';
-@debug test(list-slice, (('a' 'b' 'c'), 3, 3), append((), 'c')); // One-element list
-@debug test(list-slice, (('a' 'b' 'c'), 1, 3), ('a' 'b' 'c'));
-@debug test(list-slice, (('a' 'b' 'c'), 1, 2), ('a' 'b'));
-@debug test(list-slice, ((1 2px 3 'd' 5), 2, 4), (2px 3 'd'));
-@debug test(list-slice, (('a' 'b' 3 'd' 5 6 'g'), 2, 5), ('b' 3 'd' 5));
-
-@debug '';
-@debug 'LIST-CONTAINS';
-@debug test(list-contains, (('a' 'b' 'c'), 'a'), true);
-@debug test(list-contains, (('a' 'b' 'c'), 'b'), true);
-@debug test(list-contains, (('a' 'b' 'c'), 1), false);
-@debug test(list-contains, (('a' 2px ('a' 'b' 'c')), ('a' 'b' 'c')), true);
-@debug test(list-contains, (('a' 2px ('a' 'b' 'c')), 2px), true);
-@debug test(list-contains, ('a' 2px ('a' 'b' 'c'), 'b'), false);
-
-@debug '';
-@debug 'LIST-LAST-INDEX';
-@debug test(list-last-index, (('a' 'b' 'c'), 'a'), 1);
-@debug test(list-last-index, (('a' 'b' 'c'), 'b'), 2);
-@debug test(list-last-index, (('a' 'b' 'c'), 'c'), 3);
-@debug test(list-last-index, (('a' '-' 2px '-' 'c'), '-'), 4);
-
-@debug '';
-@debug 'LIST-SPLIT-AT-LAST';
-@debug test(list-split-at-last, ((3 '-' 1 '-' 2), '-'), ((3 '-' 1) 2 '-'));
-@debug test(list-split-at-last, (('a' 'b' 'c'), 'c'), (('a' 'b') null 'c'));
-@debug test(list-split-at-last, (('a' 'b' 'c'), 'a'), (null ('b' 'c') 'a'));
-
-@debug '';
-@debug 'CAN-SUM';
-@debug test(can-sum, (1px, 2px), true);
-@debug test(can-sum, (1px, 2em), false);
-@debug test(can-sum, (1px, 2), true);
-@debug test(can-sum, (1.5, 2), true);
-@debug test(can-sum, ('abc', 1), false);
-
-@debug '';
-@debug 'CAN-MULTIPLY';
-@debug test(can-multiply, (1px, 2px), false);
-@debug test(can-multiply, (1px, 2em), false);
-@debug test(can-multiply, (1px, 2), true);
-@debug test(can-multiply, (1.5, 2), true);
-@debug test(can-multiply, ('abc', 1), false);
-
-@debug '';
-@debug 'CAN-DIVIDE';
-@debug test(can-divide, (1px, 2px), false);
-@debug test(can-divide, (1px, 2em), false);
-@debug test(can-divide, (1px, 2), true);
-@debug test(can-divide, (2, 1px), false);
-@debug test(can-divide, (1.5, 2), true);
-@debug test(can-divide, ('abc', 1), false);
-
-@debug '';
-@debug 'ADD';
-@debug test(add, (1, 2), 3);
-@debug test(add, (1px, 2px), 3px);
-@debug test(add, (1px, 2), 3px);
-@debug test(add, (0em, 0rem), 0%);
-@debug test(add, (0em, 1rem), 1rem);
-@debug test(add, (-1em, 0rem), -1em);
-@debug test(add, (1em, 1vw), 'calc(1em + 1vw)');
-@debug test(add, (1.5em, 1rem), 'calc(1.5em + 1rem)');
-@debug test(add, (-1em, -2rem), 'calc(-1em - 2rem)');
-
-@debug '';
-@debug 'SUBTRACT';
-@debug test(subtract, (1, 2), -1);
-@debug test(subtract, (2, 1), 1);
-@debug test(subtract, (1px, 2px), -1px);
-@debug test(subtract, (2px, 1px), 1px);
-@debug test(subtract, (1em, -1.5em), 2.5em);
-@debug test(subtract, (1em, 1vw), 'calc(1em - 1vw)');
-@debug test(subtract, (-1em, -2rem), 'calc(-1em + 2rem)');
-
-@debug '';
-@debug 'MULTIPLY';
-@debug test(multiply, (3, 2), 6);
-@debug test(multiply, (-3, 2), -6);
-@debug test(multiply, (0, -7), 0%);
-@debug test(multiply, (-2px, -3), 6px);
-@debug test(multiply, (1px, 2), 2px);
-@debug test(multiply, (-1.5px, 2em), 'calc(-1.5px * 2em)');
-@debug test(multiply, (1px, 2px), 'calc(1px * 2px)');
-
-@debug '';
-@debug 'DIVIDE';
-@debug test(divide, (1, 2), 0.5);
-@debug test(divide, (-1, 2), -0.5);
-@debug test(divide, (1, -2), -0.5);
-@debug test(divide, (-1, -2), 0.5);
-@debug test(divide, (1, 0.5), 2);
-@debug test(divide, (2, 2), 1);
-@debug test(divide, (1px, 2), 0.5px);
-@debug test(divide, (1px, -2), -0.5px);
-@debug test(divide, (0, 2), 0%);
-@debug test(divide, (0, -1px), 0%);
-@debug test(divide, (1.5px, 1em), 'calc(1.5px / 1em)');
-@debug test(divide, (6, 2em), 'calc(6% / 2em)');
-
-@debug '';
-@debug 'MATH';
-@debug test(math, (1 '+' 2), 3);            // Test addition
-@debug test(math, (1px '+' 2px), 3px);      // Test units
-@debug test(math, (1 '+' 2 '-' 3), 0);      // Test addition and subtraction
-@debug test(math, ( 1 '*' 3), 3);           // Test multiplication
-@debug test(math, (3px '/' 2), 1.5px);      // Test division
-@debug test(math, ( 1 '+' 2 '*' 3), 7);     // Test operator precedence
-@debug test(math, (1px '-' '(' 3px '+' 1px ')'), -3px);        // Test parentheses
-@debug test(math, ( '(' 1px '+' 3px ')' '+' 2px), 6px);
-@debug test(math, ( '(' '(' 3 '+' 4 ')' '*' 5 ')' '/' 7),  5); // Test nested parentheses
-@debug test(math, (3px '+' 5% '-' 1%), 'calc(3px + 6%)');      // Test simplification
-@debug test(math, (1px '+' 1em '-' 1px), 1em);
+@debug assert('chained operations');
+@debug in(divide(subtract(1.5em, 1em), 2)) + out(0.25em);
+@debug in(subtract(0.25em, add(1em, 1ex))) + out('calc(-0.75em + -1ex)');
