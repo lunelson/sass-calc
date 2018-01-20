@@ -36,32 +36,6 @@
 @debug in(0wv) + out(0);
 @debug in(-1ex) + out(-1);
 
-@debug function(list-slice);
-@debug in(('a' 'b' 'c'), 3, 3) + out(l('c'));
-@debug in(('a' 'b' 'c'), 1, 3) + out(('a' 'b' 'c'));
-@debug in(('a' 'b' 'c'), 1, 2) + out(('a' 'b'));
-@debug in((1 2px 3 'd' 5), 2, 4) + out((2px 3 'd'));
-@debug in(('a' 'b' 3 'd' 5 6 'g'), 2, 5) + out(('b' 3 'd' 5));
-
-@debug function(list-contains);
-@debug in(('a' 'b' 'c'), 'a') + out(true);
-@debug in(('a' 'b' 'c'), 'b') + out(true);
-@debug in(('a' 'b' 'c'), 1) + out(false);
-@debug in(('a' 2px ('a' 'b' 'c')), ('a' 'b' 'c')) + out(true);
-@debug in(('a' 2px ('a' 'b' 'c')), 2px) + out(true);
-@debug in('a' 2px ('a' 'b' 'c'), 'b') + out(false);
-
-@debug function(list-last-index);
-@debug in(('a' 'b' 'c'), 'a') + out(1);
-@debug in(('a' 'b' 'c'), 'b') + out(2);
-@debug in(('a' 'b' 'c'), 'c') + out(3);
-@debug in(('a' '-' 2px '-' 'c'), '-') + out(4);
-
-@debug function(list-split-at-last);
-@debug in((3 '-' 1 '-' 2), '-') + out((3 '-' 1) 2 '-');
-@debug in(('a' 'b' 'c'), 'c') + out(('a' 'b') null 'c');
-@debug in(('a' 'b' 'c'), 'a') + out((null ('b' 'c') 'a'));
-
 @debug function(add);
 @debug in(1, 2) + out(3);
 @debug in(1px, 2px) + out(3px);
@@ -105,4 +79,4 @@
 
 @debug assert('chained operations');
 @debug in(divide(subtract(1.5em, 1em), 2)) + out(0.25em);
-@debug in(subtract(0.25em, add(1em, 1ex))) + out('calc(-0.75em + -1ex)');
+@debug in(subtract(0.25em, add(1em, 1ex))) + out('calc(-0.75em - 1ex)');
