@@ -4,13 +4,13 @@
 // @author Lu Nelson
 // @param {String or Number} $value — The expression / value to format
 // @return {String} — The formatted expression
-@function format($value){
+@function __format($value){
   @if type-of($value) == 'number' {
     @return if(unitless($value), $value * 1%, $value);
   } @else if type-of($value) == 'string' {
     $is-calc: str-index($value, 'calc') == 1;
     $start: str-index($value, '(');
-    $end: str-last-index($value, ')');
+    $end: __str-last-index($value, ')');
     @if $is-calc and $start and $end {
       @return unquote(str-slice($value, $start, $end));
     } @else {
@@ -27,7 +27,7 @@
 // @param {String} $string — The string to search
 // @param {String} $substring — The substring to search for
 // @return {Number} — The index of the last occurence of $substring in $string
-@function str-last-index($string, $substring) {
+@function __str-last-index($string, $substring) {
   @if not is-string($string, $substring) { @return error("non-string argument(s) supplied"); }
   $length: str-length($string);
   @for $n from $length - str-length($substring) through 1 {

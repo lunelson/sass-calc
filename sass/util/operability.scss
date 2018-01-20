@@ -1,16 +1,16 @@
 // Operability checks
 
-@function can-sum($a, $b){
-  @if is-number($a, $b) { @return comparable($a, $b); }
+@function __can-sum($a, $b){
+  @if __is-number($a, $b) { @return comparable($a, $b); }
   @return false;
 }
 
-@function can-multiply($a, $b){
-  @if is-number($a, $b) { @return unitless($a) or unitless($b); }
+@function __can-multiply($a, $b){
+  @if __is-number($a, $b) { @return unitless($a) or unitless($b); }
   @return false;
 }
 
-@function can-divide($a, $b){
-  @if is-number($a, $b) { @return unitless($b); }
+@function __can-divide($a, $b){
+  @if __is-number($a, $b) { @return unitless($b); }
   @return false;
 }

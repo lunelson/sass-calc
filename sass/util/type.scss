@@ -4,7 +4,7 @@
 // @author Lu Nelson
 // @params {Any} args... — the elements to evaluate
 // @return {Boolean} — true if all the elements are numbers, else false
-@function is-number($args...) {
+@function __is-number($args...) {
   @each $arg in $args { @if type-of($arg) != 'number' { @return false; } }
   @return true;
 }
@@ -13,7 +13,7 @@
 // @author Lu Nelson
 // @params {Any} $args... — the elements to evaluate
 // @return {Boolean} — true if all of the elements are strings, else false
-@function is-string($args...) {
+@function __is-string($args...) {
   @each $arg in $args { @if type-of($arg) != 'string' { @return false; } }
   @return true;
 }
@@ -22,9 +22,9 @@
 // @author Lu Nelson
 // @params {Any} $args... — the elements to evaluate
 // @return {Boolean} — true if all of the elements are 0, else false
-@function is-zero($args...) {
-  @if not is-number($args...) { @return false; }
-  @each $arg in $args { @if strip-unit($arg) != 0 { @return false; } }
+@function __is-zero($args...) {
+  @if not __is-number($args...) { @return false; }
+  @each $arg in $args { @if __strip-unit($arg) != 0 { @return false; } }
   @return true;
 }
 
@@ -32,7 +32,7 @@
 // @author Hugo Giraudel
 // @param {Number} $number - Number to remove unit from
 // @return {Number} - Unitless number
-@function strip-unit($number) {
+@function __strip-unit($number) {
   @if type-of($number) == 'number' and not unitless($number) {
     @return $number / ($number * 0 + 1);
   }

@@ -1,33 +1,33 @@
 // operations: add, subtract, multiply, divide
 
 @function add($expr1, $expr2){
-  @if is-number($expr2) and $expr2 < 0 { @return subtract($expr1, $expr2/-1); }
-  @if is-zero($expr1, $expr2) { @return 0%; }
-  @if not $expr1 or is-zero($expr1) { @return $expr2; }
-  @if not $expr2 or is-zero($expr2) { @return $expr1; }
-  @if can-sum($expr1, $expr2) { @return $expr1 + $expr2; }
-  @return unquote('calc(#{format($expr1)} + #{format($expr2)})');
+  @if __is-number($expr2) and $expr2 < 0 { @return subtract($expr1, $expr2/-1); }
+  @if __is-zero($expr1, $expr2) { @return 0%; }
+  @if not $expr1 or __is-zero($expr1) { @return $expr2; }
+  @if not $expr2 or __is-zero($expr2) { @return $expr1; }
+  @if __can-sum($expr1, $expr2) { @return $expr1 + $expr2; }
+  @return unquote('calc(#{__format($expr1)} + #{__format($expr2)})');
 }
 
 @function subtract($expr1, $expr2){
-  @if is-number($expr2) and $expr2 < 0 { @return add($expr1, $expr2/-1); }
-  @if is-zero($expr1, $expr2) { @return 0%; }
-  @if not $expr1 or is-zero($expr1) { @return $expr2; }
-  @if not $expr2 or is-zero($expr2) { @return $expr1; }
-  @if can-sum($expr1, $expr2) { @return $expr1 - $expr2; }
-  @return unquote('calc(#{format($expr1)} - #{format($expr2)})');
+  @if __is-number($expr2) and $expr2 < 0 { @return add($expr1, $expr2/-1); }
+  @if __is-zero($expr1, $expr2) { @return 0%; }
+  @if not $expr1 or __is-zero($expr1) { @return $expr2; }
+  @if not $expr2 or __is-zero($expr2) { @return $expr1; }
+  @if __can-sum($expr1, $expr2) { @return $expr1 - $expr2; }
+  @return unquote('calc(#{__format($expr1)} - #{__format($expr2)})');
 }
 
 @function multiply($expr, $n){
-  @if is-zero($expr) or is-zero($n) { @return 0%; }
+  @if __is-zero($expr) or __is-zero($n) { @return 0%; }
   @if not $n or type-of($n) != 'number' { @return error("invalid factor"); }
-  @if can-multiply($expr, $n) { @return $expr * $n; }
-  @return unquote('calc(#{format($expr)} * #{$n})');
+  @if __can-multiply($expr, $n) { @return $expr * $n; }
+  @return unquote('calc(#{__format($expr)} * #{$n})');
 }
 
 @function divide($expr, $n){
-  @if is-zero($expr) { @return 0%; }
-  @if not $n or type-of($n) != 'number' or is-zero($n) { @return error("invalid divisor"); }
-  @if can-divide($expr, $n) { @return $expr / $n; }
-  @return unquote('calc(#{format($expr)} / #{$n})');
+  @if __is-zero($expr) { @return 0%; }
+  @if not $n or type-of($n) != 'number' or __is-zero($n) { @return error("invalid divisor"); }
+  @if __can-divide($expr, $n) { @return $expr / $n; }
+  @return unquote('calc(#{__format($expr)} / #{$n})');
 }

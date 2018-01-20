@@ -1,7 +1,7 @@
 @import 'lib/test'; 
 @import '../index';
 
-@debug function(is-number);
+@debug function(__is-number);
 @debug in(0px) + out(true);
 @debug in(1px) + out(true);
 @debug in(0) + out(true);
@@ -10,7 +10,7 @@
 @debug in(0px, 'str') + out(false);
 @debug in(0px, 1px) + out(true);
 
-@debug function(is-zero);
+@debug function(__is-zero);
 @debug in(0) + out(true);
 @debug in(0px) + out(true);
 @debug in(0rem) + out(true);
@@ -20,7 +20,7 @@
 @debug in(0, 0) + out(true);
 @debug in(0, 1) + out(false);
 
-@debug function(is-string);
+@debug function(__is-string);
 @debug in(abc) + out(true);
 @debug in('abc') + out(true);
 @debug in("abc") + out(true);
@@ -30,7 +30,7 @@
 @debug in(abc, 1) + out(false);
 @debug in(('abc' 'def')) + out(false);
 
-@debug function(strip-unit);
+@debug function(__strip-unit);
 @debug in(1px) + out(1);
 @debug in(3.5em) + out(3.5);
 @debug in(0wv) + out(0);
