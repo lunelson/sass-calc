@@ -1,4 +1,4 @@
-@import 'lib/test'; 
+@import '../node_modules/sass-pass/index'; 
 @import '../index';
 
 @debug function(__is-number);
@@ -80,3 +80,5 @@
 @debug assert('chained operations');
 @debug in(divide(subtract(1.5em, 1em), 2)) + out(0.25em);
 @debug in(subtract(0.25em, add(1em, 1ex))) + out('calc(-0.75em - 1ex)');
+
+@debug summary();
