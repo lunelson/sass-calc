@@ -1,3 +1,13 @@
+@function __one($unit:'') {
+  $one: ('em': 1em, 'ex': 1ex, 'ch': 1ch, 'rem': 1rem, '%': 1%, 'vw': 1vw, 'vh': 1vh, 'vmin': 1vmin, 'vmax': 1vmax, 'cm': 1cm, 'mm': 1mm, 'in': 1in, 'px': 1px, 'pt': 1pt, 'pc': 1pc, 'deg': 1deg, 'grad': 1grad, 'rad': 1rad, 'turn': 1turn, 's': 1s, 'ms': 1ms, 'dpi': 1dpi, 'dpcm': 1dpcm, 'dppx': 1dppx);
+  @return map-get($one, $unit) or 1;
+}
+
+@function __strip($n) {
+  @if not __is-number($n) { @return error("cannot manipulate unit of non-number"); }
+  @return if(unitless($n), $n, $n / __one(unit($n)));
+}
+
 //
 // type/value checks
 // --------------------------------------------------------------------------

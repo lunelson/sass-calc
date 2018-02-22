@@ -1,7 +1,7 @@
 .debug {
   is-number: false;
   is-number: false;
-  is-zero: false;
+  is-zero: true;
   is-zero: false;
   zero: 0px;
   zero: 1px;
@@ -29,9 +29,9 @@
 .hello-world {
   test: 0.5em;
   test: calc(1.5em + 1rem);
-  test: calc(0em + 0rem);
-  test: calc(0em + 1rem);
-  test: calc(-1em + 0rem);
+  test: 0%;
+  test: 1rem;
+  test: -1em;
   test: calc(-1em - 2rem);
   test: calc(-1em + 2rem);
   test: calc(((100vw - 50%) * 2) + 10px);
