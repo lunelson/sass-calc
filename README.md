@@ -10,7 +10,7 @@ Use `add()`, `subtract()`, `multiply()` and `divide()` on values which may have 
 
 ```sh
 # install
-npm install --save lunelson/sass-calc
+npm install --save @lunelson/sass-calc
 ```
 ```scss
 // test.scss
