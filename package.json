@@ -1,12 +1,15 @@
 {
-  "name": "sass-calc",
-  "version": "0.0.9",
+  "title": "sass-calc",
+  "name": "@lunelson/sass-calc",
+  "version": "0.9.0",
   "description": "Augmented math operations in Sass through use of CSS `calc` expressions",
   "main": "_index.scss",
   "directories": {
     "test": "test"
   },
-  "private": true,
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "test": "gulp test"
   },
