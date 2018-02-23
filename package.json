@@ -1,37 +1,36 @@
 {
-  "title": "sass-calc",
   "name": "@lunelson/sass-calc",
   "version": "0.9.0",
-  "description": "Augmented math operations in Sass through use of CSS `calc` expressions",
+  "description": "Augmented math in Sass via CSS calc()",
+  "keywords": [
+    "calc",
+    "libsass",
+    "sass"
+  ],
+  "homepage": "https://github.com/lunelson/sass-calc#readme",
+  "bugs": {
+    "url": "https://github.com/lunelson/sass-calc/issues"
+  },
+  "license": "MIT",
+  "author": "Lu Nelson",
   "main": "_index.scss",
   "directories": {
     "test": "test"
   },
-  "publishConfig": {
-    "access": "public"
-  },
-  "scripts": {
-    "test": "gulp test"
-  },
-  "author": "Lu Nelson",
-  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/lunelson/sass-calc.git"
   },
-  "bugs": {
-    "url": "https://github.com/lunelson/sass-calc/issues"
+  "scripts": {
+    "test": "gulp test"
   },
-  "homepage": "https://github.com/lunelson/sass-calc#readme",
-  "keywords": [
-    "libsass",
-    "sass",
-    "calc"
-  ],
   "devDependencies": {
     "gulp": "^3.9.1",
     "gulp-diff": "^1.0.0",
     "gulp-rename": "^1.2.2",
     "gulp-sass": "^3.1.0"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

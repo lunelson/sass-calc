@@ -1,46 +1,90 @@
 @import '../index';
 
-.debug {
+.private {
+  /*
+    detect numbers:
+      true
+      false
+      false
+   */
+  is-number: __is-number(0px, 0rem, 0, 1, 2);
   is-number: __is-number(0px, 0rem, 0, (1 2));
   is-number: __is-number(0px, 0rem, 0, 'str');
+  /*
+    detect zero, unit or not:
+      true
+      false
+   */
   is-zero: __is-zero(0px, 0rem, 0, 0%);
   is-zero: __is-zero(0px, 0rem, 0, 1%);
+  /*
+    verify zero operations:
+  */
   $zero: 0px;
   zero: $zero;
   zero: $zero * 0 + 1;
   zero: $zero / ($zero * 0 + 1);
-  num: __is-number(1em, 'str');
-  num: __is-number((1 2), 2);
   num: type-of((2 3));
+  /*
+    __str-last-index
+   */
   $test: 'hello / (world)';
-  num: __str-last-index($test, 'rld');
-  num: __str-last-index($test, 'o');
-  num: __str-last-index($test, 'l');
-  num: __str-last-index($test, 'rl');
-  num: __str-last-index($test, ')') str-length($test);
-  pre: __format(5);
-  pre: __format(0);
-  pre: __format(5em);
-  pre: __format(null);
-  pre: __format(calc(1em + 3%));
-  pre: unquote('1em + 3%');
-  pre: __format(unquote('1em + 3%'));
-  pre: __format('string');
-  pre: __format(string);
-  pre: __format(add(1em, 1vw));
+  str-last-index: __str-last-index($test, 'rld');
+  str-last-index: __str-last-index($test, 'o');
+  str-last-index: __str-last-index($test, 'l');
+  str-last-index: __str-last-index($test, 'rl');
+  str-last-index: __str-last-index($test, ')') str-length($test);
+  /*
+    __format
+      unitless zero becomes 0%
+      other unitless numbers left alone
+  */
+
+  format: __format(5);
+  format: __format(0);
+  format: __format(5em);
+  format: __format(null);
+  format: __format(calc(1em + 3%));
+  format: unquote('1em + 3%');
+  format: __format(unquote('1em + 3%'));
+  format: __format('string');
+  format: __format(string);
+  format: __format(add(1em, 1vw));
 }
 
-.hello-world {
+.public {
   $expr: calc(100vw - 50%);
-
-  test: subtract(1.5em, 1em);
-  test: add(1.5em, 1rem);
-  test: add(0em, 0rem);
-  test: add(0em, 1rem);
-  test: add(-1em, 0rem);
-  test: add(-1em, -2rem);
-  test: subtract(-1em, -2rem);
-  test: add(multiply($expr, 2), 10px);
-  test: divide(subtract(1.5em, 1em), 2);
-  test: subtract(divide(subtract(1.5em, 1em), 2), add(1em, 1ex));
+  /**
+   * add
+   */
+  content: add(1.5em, 1rem);
+  content: add(0em, 0rem);
+  content: add(0em, 1rem);
+  content: add(-1em, 0rem);
+  content: add(-1em, -2rem);
+  /*
+    subtract
+    - non-number
+    - negative number
+    - unitless number
+    - matched units
+    - mixed units
+    - unit zero
+    - unitless zero
+    =================
+      calc(1.5em - error("invalid value for calc expression"))
+      calc(1.5em - error("invalid value for calc expression"))
+      0.5em
+      calc(-1em + 2rem)
+   */
+  content: subtract(1.5em, (1em 3));
+  content: subtract(1.5em, false);
+  content: subtract(1.5em, 1em);
+  content: subtract(-1em, -2rem);
+  /**
+   * compound
+   */
+  content: add(multiply($expr, 2), 10px);
+  content: divide(subtract(1.5em, 1em), 2);
+  content: subtract(divide(subtract(1.5em, 1em), 2), add(1em, 1ex));
 }
