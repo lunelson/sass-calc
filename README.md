@@ -9,12 +9,15 @@ Harness the power of CSS `calc()` expressions in Sass math.
 Use `add()`, `subtract()`, `multiply()` and `divide()` on values which may have incompatible units, or which are `calc()` expressions themselves, and return a `calc()` expression as a result.
 
 ```sh
-# install
+# in your project
 npm install --save @lunelson/sass-calc
 ```
 ```scss
-// test.scss
+// in your sass file, assuming you have 'node_modules' in Sass' search path
 @import 'sass-calc/index';
+```
+```scss
+// test.scss
 $expr: calc(100vw - 50%);
 .test {
   test: subtract(1.5em, 1em);
