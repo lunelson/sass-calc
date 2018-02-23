@@ -2,6 +2,7 @@
 
 !['sass calc'](sass-calc.png)
 
+[![npm published v](https://img.shields.io/npm/v/@lunelson/sass-calc.svg)]()
 [![Build Status](https://travis-ci.org/lunelson/sass-calc.svg?branch=master)](https://travis-ci.org/lunelson/sass-calc)
 
 Harness the power of CSS `calc()` expressions in Sass math.
