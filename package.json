@@ -22,6 +22,7 @@
     "url": "git+https://github.com/lunelson/sass-calc.git"
   },
   "scripts": {
+    "start": "gulp",
     "test": "gulp test"
   },
   "devDependencies": {

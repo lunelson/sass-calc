@@ -14,7 +14,7 @@ npm install --save @lunelson/sass-calc
 ```
 ```scss
 // in your sass file, assuming you have 'node_modules' in Sass' search path
-@import 'sass-calc/index';
+@import '@lunelson/sass-calc/index';
 ```
 ```scss
 // test.scss
