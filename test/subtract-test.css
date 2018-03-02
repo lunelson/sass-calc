@@ -1,0 +1,78 @@
+/*
+  - non-number
+  - negative number
+  - unitless number
+  - matched units
+  - mixed units
+  - unit zero
+  - unitless zero
+*/
+.subtract {
+  /*
+    non-number
+    ============
+  */
+  content: calc(1.5em - (foo));
+  error: "no error calls registered";
+  content: calc((foo) - 1.5em);
+  error: "no error calls registered";
+  error: "bool is invalid operand";
+  error: "bool is invalid operand";
+  error: "bool is invalid operand";
+  error: "list is invalid operand";
+  error: "list is invalid operand";
+  /*
+    negative number
+    ============
+    2.5em
+    calc(1.5em + 1rem)
+    -2.5em
+    calc(-1rem - 1.5em)
+  */
+  content: 2.5em;
+  content: calc(1.5em + 1rem);
+  content: -2.5em;
+  content: calc(-1rem - 1.5em);
+  /*
+    unitless number
+    ============
+    -1
+    2.5em
+    -2.5em
+  */
+  content: -1;
+  content: 2.5em;
+  content: -2.5em;
+  /*
+    matched units
+    ============
+    0.5em
+    -0.5em
+  */
+  content: 0.5em;
+  content: -0.5em;
+  /*
+    mixed units
+    ============
+    calc(1.5em - 1rem)
+    calc(1rem - 1.5em)
+  */
+  content: calc(1.5em - 1rem);
+  content: calc(1rem - 1.5em);
+  /*
+    unit zero
+    ============
+    -2em
+    2em
+  */
+  content: -2em;
+  content: 2em;
+  /*
+    unitless zero
+    ============
+    calc(0px - 2em)
+    2em
+  */
+  content: calc(0px - 2em);
+  content: 2em;
+}

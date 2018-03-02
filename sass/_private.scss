@@ -12,6 +12,26 @@
 // type/value checks
 // --------------------------------------------------------------------------
 
+@function __has-bool($args...) {
+  @each $arg in $args { @if type-of($arg) == 'bool' { @return true; } }
+  @return false;
+}
+
+@function __is-bool($args...) {
+  @each $arg in $args { @if type-of($arg) != 'bool' { @return false; } }
+  @return true;
+}
+
+@function has-list($args...) {
+  @each $arg in $args { @if type-of($arg) == 'list' and length($arg) > 1 { @return true; } }
+  @return false;
+}
+
+@function is-list($args...) {
+  @each $arg in $args { @if type-of($arg) != 'list' or length($arg) > 1 { @return false; } }
+  @return true;
+}
+
 @function __is-number($args...) {
   @each $arg in $args { @if type-of($arg) != 'number' { @return false; } }
   @return true;
@@ -23,7 +43,7 @@
 }
 
 @function __is-zero($args...) {
-  @if not is-number($args...) { @return false; }
+  @if not __is-number($args...) { @return false; }
   @each $arg in $args { @if __strip($arg) != 0 { @return false; } }
   @return true;
 }
@@ -74,6 +94,7 @@
       @return unquote('(#{$value})');
     }
   } @else {
+    @debug 'made it';
     @return error("invalid value for calc expression");
   }
 }

@@ -35,12 +35,12 @@ function renderTests() {
     .pipe(sass({
       outputStyle: 'expanded',
       includePaths: [sassIncl]
-    }).on('error', sass.logError))
+    }).on('error', sass.logError));
 }
 
 gulp.task('work', function(){
   return renderTests()
-    .pipe(gulp.dest(testDest))
+    .pipe(gulp.dest(testDest));
 });
 
 gulp.task('test', function(){
@@ -51,5 +51,5 @@ gulp.task('test', function(){
 });
 
 gulp.task('default', function () {
-  return gulp.watch(testGlob, ['work']);
+  return gulp.watch('./**/*.scss', ['work']);
 });

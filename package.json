@@ -29,7 +29,11 @@
     "gulp": "^3.9.1",
     "gulp-diff": "^1.0.0",
     "gulp-rename": "^1.2.2",
-    "gulp-sass": "^3.1.0"
+    "gulp-sass": "^3.1.0",
+    "@lunelson/sass-throw": "^1.0.1"
+  },
+  "peerDependencies": {
+    "@lunelson/sass-throw": "^1.0.1"
   },
   "publishConfig": {
     "access": "public"
