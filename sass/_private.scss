@@ -22,12 +22,12 @@
   @return true;
 }
 
-@function has-list($args...) {
+@function __has-list($args...) {
   @each $arg in $args { @if type-of($arg) == 'list' and length($arg) > 1 { @return true; } }
   @return false;
 }
 
-@function is-list($args...) {
+@function __is-list($args...) {
   @each $arg in $args { @if type-of($arg) != 'list' or length($arg) > 1 { @return false; } }
   @return true;
 }
