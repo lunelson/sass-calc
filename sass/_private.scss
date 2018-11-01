@@ -12,19 +12,24 @@
 // type/value checks
 // --------------------------------------------------------------------------
 
-@function __has-bool($args...) {
+@function __any-null($args...) {
+  @each $arg in $args { @if type-of($arg) == 'null' { @return true; } }
+  @return false;
+}
+
+@function __any-bool($args...) {
   @each $arg in $args { @if type-of($arg) == 'bool' { @return true; } }
+  @return false;
+}
+
+@function __any-list($args...) {
+  @each $arg in $args { @if type-of($arg) == 'list' and length($arg) > 1 { @return true; } }
   @return false;
 }
 
 @function __is-bool($args...) {
   @each $arg in $args { @if type-of($arg) != 'bool' { @return false; } }
   @return true;
-}
-
-@function __has-list($args...) {
-  @each $arg in $args { @if type-of($arg) == 'list' and length($arg) > 1 { @return true; } }
-  @return false;
 }
 
 @function __is-list($args...) {
@@ -42,9 +47,29 @@
   @return true;
 }
 
+@function __any-zero($args...) {
+  @each $arg in $args {
+    @if type-of($arg) == 'number' {
+      @if __strip($arg) == 0 { @return true; }
+    }
+  }
+  @return false;
+}
+
 @function __is-zero($args...) {
-  @if not __is-number($args...) { @return false; }
-  @each $arg in $args { @if __strip($arg) != 0 { @return false; } }
+  @each $arg in $args {
+    @if type-of($arg) != 'number' { @return false; }
+    @if __strip($arg) != 0 { @return false; }
+  }
+  @return true;
+}
+
+@function __is-unitless($args...) {
+  // @if not __is-number($args...) { @return false; }
+  @each $arg in $args {
+    @if type-of($arg) != 'number' { @return false; }
+    @if not unitless($arg) { @return false; }
+  }
   @return true;
 }
 
@@ -91,7 +116,7 @@
     @if $is-calc and $start and $end {
       @return unquote(str-slice($value, $start, $end));
     } @else {
-      @return unquote('(#{$value})');
+      @return unquote('#{$value}');
     }
   } @else {
     @debug 'made it';

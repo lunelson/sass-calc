@@ -1,0 +1,76 @@
+@import 'deps';
+
+//                  _ _   _       _
+//                 | | | (_)     | |
+//  _ __ ___  _   _| | |_ _ _ __ | |_   _
+// | '_ ` _ \| | | | | __| | '_ \| | | | |
+// | | | | | | |_| | | |_| | |_) | | |_| |
+// |_| |_| |_|\__,_|_|\__|_| .__/|_|\__, |
+//                         | |       __/ |
+//                         |_|      |___/
+
+
+$st-catch: true !global;
+
+.multiply {
+  /*
+  non-number
+  ////////////////////////
+  content: "bool is an invalid factor";
+  content: "bool is an invalid factor";
+  content: "bool is an invalid factor";
+  content: "list is an invalid factor";
+  content: "list is an invalid factor";
+  */
+  content: inspect(multiply(1.5em, false) or last-error());
+  content: inspect(multiply(false, 1.5) or last-error());
+  content: inspect(multiply(false, 1.5em) or last-error());
+  content: inspect(multiply(1.5em, (1em 3)) or last-error());
+  content: inspect(multiply((foo bar), 1.5em) or last-error());
+  /*
+  string arguments
+  ////////////////////////
+  content: calc(1.5em * var(--foo));
+  content: calc(var(--foo) * 1.5em);
+  content: calc(var(--foo) * 2);
+  content: calc(1.5em * calc(100% - 10px));
+  content: calc((100% - 10px) * 1.5em);
+  content: calc((100% - 10px) * 2);
+  */
+  content: inspect(multiply(1.5em, var(--foo)) or last-error());
+  content: inspect(multiply(var(--foo), 1.5em) or last-error());
+  content: inspect(multiply(var(--foo), 2) or last-error());
+  content: inspect(multiply(1.5em, calc(100% - 10px)) or last-error());
+  content: inspect(multiply(calc(100% - 10px), 1.5em) or last-error());
+  content: inspect(multiply(calc(100% - 10px), 2) or last-error());
+  /*
+  negative numbers
+  ////////////////////////
+  content: calc(var(--bar) * -2);
+  content: -3em;
+  content: -2em;
+  content: calc(var(--bar) * 2);
+  */
+  content: inspect(multiply(var(--bar), -2) or last-error());
+  content: inspect(multiply(1.5em, -2) or last-error());
+  content: inspect(multiply(-1em, 2) or last-error());
+  content: inspect(multiply(var(--bar), 2) or last-error());
+  /*
+  bad factors
+  ////////////////////////
+  content: "list is an invalid factor";
+  content: "null is an invalid factor";
+  content: "null is an invalid factor";
+  */
+  content: inspect(multiply(1.5em, (a b)) or last-error());
+  content: inspect(multiply(-1, null) or last-error());
+  content: inspect(multiply(null, var(--baz)) or last-error());
+  /*
+  unit vs unitless zero
+  ////////////////////////
+  content: 0%;
+  content: 0%;
+  */
+  content: inspect(multiply(0px, 2) or last-error());
+  content: inspect(multiply(0, 2) or last-error());
+}

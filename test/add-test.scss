@@ -1,0 +1,99 @@
+@import 'deps';
+
+//            _     _
+//           | |   | |
+//   __ _  __| | __| |
+//  / _` |/ _` |/ _` |
+// | (_| | (_| | (_| |
+//  \__,_|\__,_|\__,_|
+
+
+$st-catch: true !global;
+
+.add {
+  /*
+  invalid args
+  ////////////////////////
+  error: "bool is an invalid operand";
+  error: "bool is an invalid operand";
+  error: "bool is an invalid operand";
+  error: "list is an invalid operand";
+  error: "list is an invalid operand";
+  */
+  content: add(1.5em, false);
+  error: last-error();
+  content: add(false, 1.5);
+  error: last-error();
+  content: add(false, 1.5em);
+  error: last-error();
+  content: add(1.5em, (1em 3));
+  error: last-error();
+  content: add((foo bar), 1.5em);
+  error: last-error();
+  /*
+  string arguments: calc() or var()
+  ////////////////////////
+  content: calc(1.5em + var(--foo));
+  content: calc(var(--foo) + 1.5em);
+  content: calc(1.5em + (100% - 10px));
+  content: calc((100% - 10px) + 1.5em);
+  */
+  content: add(1.5em, var(--foo));
+  content: add(var(--foo), 1.5em);
+  content: add(1.5em, calc(100% - 10px));
+  content: add(calc(100% - 10px), 1.5em);
+  /*
+  negative number
+  ////////////////////////
+  content: 0.5em;
+  content: calc(1.5em - 1rem);
+  content: 0.5em;
+  content: calc(-1rem + 1.5em);
+  */
+  content: add(1.5em, -1em);
+  content: add(1.5em, -1rem);
+  content: add(-1em, 1.5em);
+  content: add(-1rem, 1.5em);
+  /*
+  unitless number
+  ////////////////////////
+  content: 5;
+  content: 0.5em;
+  content: 0.5em;
+  */
+  content: add(2,3);
+  content: add(1.5em, -1);
+  content: add(-1, 1.5em);
+  /*
+  matched units
+  ////////////////////////
+  content: 2.5em;
+  content: 2.5em;
+  */
+  content: add(1.5em, 1em);
+  content: add(1em, 1.5em);
+  /*
+  mixed units
+  ////////////////////////
+  content: calc(1.5em + 1rem);
+  content: calc(1rem + 1.5em);
+  */
+  content: add(1.5em, 1rem);
+  content: add(1rem, 1.5em);
+  /*
+  unitless zero
+  ////////////////////////
+  content: 2em;
+  content: 2em;
+  */
+  content: add(0, 2em);
+  content: add(2em, 0);
+  /*
+  unit zero
+  ////////////////////////
+  content: 2em;
+  content: 2em;
+  */
+  content: add(0px, 2em);
+  content: add(2em, 0px);
+}

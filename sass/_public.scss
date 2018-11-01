@@ -3,9 +3,10 @@
 // --------------------------------------------------------------------------
 
 @function add($expr1, $expr2){
-  @if __has-bool($expr1, $expr2) { @return error('bool is invalid operand'); }
-  @if __has-list($expr1, $expr2) { @return error('list is invalid operand'); }
   @if __is-number($expr2) and $expr2 < 0 { @return subtract($expr1, $expr2/-1); }
+  // @if __any-null($expr1, $expr2) { @return zip($expr1, $expr2); }
+  @if __any-bool($expr1, $expr2) { @return error('bool is an invalid operand'); }
+  @if __any-list($expr1, $expr2) { @return error('list is an invalid operand'); }
   @if __is-zero($expr1, $expr2) { @return 0%; }
   @if not $expr1 or __is-zero($expr1) { @return $expr2; }
   @if not $expr2 or __is-zero($expr2) { @return $expr1; }
@@ -14,9 +15,10 @@
 }
 
 @function subtract($expr1, $expr2){
-  @if __has-bool($expr1, $expr2) { @return error('bool is invalid operand'); }
-  @if __has-list($expr1, $expr2) { @return error('list is invalid operand'); }
   @if __is-number($expr2) and $expr2 < 0 { @return add($expr1, $expr2/-1); }
+  // @if __any-null($expr1, $expr2) { @return zip($expr1, $expr2); }
+  @if __any-bool($expr1, $expr2) { @return error('bool is an invalid operand'); }
+  @if __any-list($expr1, $expr2) { @return error('list is an invalid operand'); }
   @if __is-zero($expr1, $expr2) { @return 0%; }
   @if not $expr2 or __is-zero($expr2) { @return $expr1; }
   @if __can-sum($expr1, $expr2) { @return $expr1 - $expr2; }
@@ -24,19 +26,22 @@
 }
 
 @function multiply($expr, $n){
-  @if __has-bool($expr, $n) { @return error('bool is invalid operand'); }
-  @if __has-list($expr, $n) { @return error('list is invalid operand'); }
+  // @if __any-null($expr, $n) { @return zip($expr, $n); }
+  @if __any-bool($expr, $n) { @return error('bool is an invalid factor'); }
+  @if __any-list($expr, $n) { @return error('list is an invalid factor'); }
   @if __is-zero($expr) or __is-zero($n) { @return 0%; }
-  @if not $n or type-of($n) != 'number' { @return error("invalid factor"); }
+  @if not $expr { @return error('#{inspect($expr)} is an invalid factor'); }
+  @if not $n { @return error('#{inspect($n)} is an invalid factor'); }
   @if __can-multiply($expr, $n) { @return $expr * $n; }
   @return unquote('calc(#{__format($expr)} * #{$n})');
 }
 
 @function divide($expr, $n){
-  @if __has-bool($expr, $n) { @return error('bool is invalid operand'); }
-  @if __has-list($expr, $n) { @return error('list is invalid operand'); }
+  // @if __any-null($expr, $n) { @return zip($expr, $n); }
+  @if __any-bool($expr, $n) { @return error('bool is an invalid operand'); }
+  @if __any-list($expr, $n) { @return error('list is an invalid operand'); }
   @if __is-zero($expr) { @return 0%; }
-  @if not $n or type-of($n) != 'number' or __is-zero($n) { @return error("invalid divisor"); }
+  @if not $n or (__is-number($n) and (__is-zero($n) or (not unitless($n)))) { @return error('#{inspect($n)} is an invalid divisor'); }
   @if __can-divide($expr, $n) { @return $expr / $n; }
   @return unquote('calc(#{__format($expr)} / #{$n})');
 }
