@@ -38,18 +38,21 @@ function renderTests() {
     }).on('error', sass.logError));
 }
 
-gulp.task('work', function(){
+function work(){
   return renderTests()
     .pipe(gulp.dest(testDest));
-});
+}
 
-gulp.task('test', function(){
+function test(){
   return renderTests()
     .pipe(rename({extname: '.css'}))
     .pipe(diff())
     .pipe(diff.reporter({ fail: true }));
-});
+}
+gulp.task('work', work);
+
+gulp.task('test', test);
 
 gulp.task('default', function () {
-  return gulp.watch('./**/*.scss', ['work']);
+  return gulp.watch('./**/*.scss', work);
 });

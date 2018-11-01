@@ -1,0 +1,15 @@
+@import 'deps';
+
+// test.scss
+:root {
+  --foo: 20px;
+}
+$expr: calc(100vw - 50%);
+.test {
+  test: subtract(1.5em, 1em);
+  test: add(1.5em, 1rem);
+  test: add(multiply($expr, 2), 10px);
+  test: add(multiply(var(--foo), 2), 10px);
+  test: divide(subtract(1.5em, 1em), 2);
+  test: subtract(divide(subtract(1.5em, 1em), 2), add(1em, 1ex));
+}
