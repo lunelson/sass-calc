@@ -26,11 +26,11 @@
     "test": "gulp test"
   },
   "devDependencies": {
-    "gulp": "^3.9.1",
+    "@lunelson/sass-throw": "^1.0.1",
+    "gulp": "^4.0.0",
     "gulp-diff": "^1.0.0",
-    "gulp-rename": "^1.2.2",
-    "gulp-sass": "^3.1.0",
-    "@lunelson/sass-throw": "^1.0.1"
+    "gulp-rename": "^1.4.0",
+    "gulp-sass": "^3.2.1"
   },
   "peerDependencies": {
     "@lunelson/sass-throw": "^1.0.1"
