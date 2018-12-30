@@ -8,11 +8,11 @@
   content: "list is an invalid factor";
   content: "list is an invalid factor";
   */
-  content: "bool is an invalid factor";
-  content: "bool is an invalid factor";
-  content: "bool is an invalid factor";
-  content: "list is an invalid factor";
-  content: "list is an invalid factor";
+  content: "ERROR: bool is an invalid factor";
+  content: "ERROR: bool is an invalid factor";
+  content: "ERROR: bool is an invalid factor";
+  content: "ERROR: list is an invalid factor";
+  content: "ERROR: list is an invalid factor";
   /*
   string arguments
   ////////////////////////
@@ -48,9 +48,9 @@
   content: "null is an invalid factor";
   content: "null is an invalid factor";
   */
-  content: "list is an invalid factor";
-  content: "null is an invalid factor";
-  content: "null is an invalid factor";
+  content: "ERROR: list is an invalid factor";
+  content: "ERROR: null is an invalid factor";
+  content: "ERROR: null is an invalid factor";
   /*
   unit vs unitless zero
   ////////////////////////

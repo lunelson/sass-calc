@@ -1,0 +1,62 @@
+.divide {
+  /*
+  non-number
+  ////////////////////////
+  content: "bool is an invalid operand";
+  content: "bool is an invalid operand";
+  content: "bool is an invalid operand";
+  content: "list is an invalid operand";
+  content: "list is an invalid operand";
+  */
+  content: "ERROR: bool is an invalid operand";
+  content: "ERROR: bool is an invalid operand";
+  content: "ERROR: bool is an invalid operand";
+  content: "ERROR: list is an invalid operand";
+  content: "ERROR: list is an invalid operand";
+  /*
+  string arguments
+  ////////////////////////
+  content: calc(1.5em / var(--foo));
+  content: "1.5em is an invalid divisor";
+  content: calc(var(--foo) / 2);
+  content: calc(1.5em / calc(100% - 10px));
+  content: "1.5em is an invalid divisor";
+  content: calc((100% - 10px) / 2);
+  */
+  content: calc(1.5em / var(--foo));
+  content: "ERROR: 1.5em is an invalid divisor";
+  content: calc(var(--foo) / 2);
+  content: calc(1.5em / calc(100% - 10px));
+  content: "ERROR: 1.5em is an invalid divisor";
+  content: calc((100% - 10px) / 2);
+  /*
+  negative numbers
+  ////////////////////////
+  content: calc(var(--bar) / -2);
+  content: -0.75em;
+  content: -0.5em;
+  content: calc(var(--bar) / 2);
+  */
+  content: calc(var(--bar) / -2);
+  content: -0.75em;
+  content: -0.5em;
+  content: calc(var(--bar) / 2);
+  /*
+  bad divisors
+  ////////////////////////
+  content: "0 is an invalid divisor";
+  content: "list is an invalid operand";
+  content: "null is an invalid divisor";
+  */
+  content: "ERROR: 0 is an invalid divisor";
+  content: "ERROR: list is an invalid operand";
+  content: "ERROR: null is an invalid divisor";
+  /*
+  unit vs unitless zero
+  ////////////////////////
+  content: 0%;
+  content: 0%;
+  */
+  content: 0%;
+  content: 0%;
+}

@@ -8,11 +8,11 @@
   content: "list is an invalid operand";
   content: "list is an invalid operand";
   */
-  content: "bool is an invalid operand";
-  content: "bool is an invalid operand";
-  content: "bool is an invalid operand";
-  content: "list is an invalid operand";
-  content: "list is an invalid operand";
+  content: "ERROR: bool is an invalid operand";
+  content: "ERROR: bool is an invalid operand";
+  content: "ERROR: bool is an invalid operand";
+  content: "ERROR: list is an invalid operand";
+  content: "ERROR: list is an invalid operand";
   /*
   string arguments: calc() or var()
   ////////////////////////

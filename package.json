@@ -11,31 +11,45 @@
   "bugs": {
     "url": "https://github.com/lunelson/sass-calc/issues"
   },
-  "license": "MIT",
-  "author": "Lu Nelson",
-  "main": "_index.scss",
-  "directories": {
-    "test": "test"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/lunelson/sass-calc.git"
   },
+  "license": "MIT",
+  "author": "Lu Nelson",
+  "main": "_index.scss",
+  "directories": {
+    "test": "tests"
+  },
   "scripts": {
-    "start": "gulp",
-    "test": "gulp test"
+    "links": "npm link @lunelson/sass-throw",
+    "test": "ava",
+    "start": "ava --watch --serial"
   },
   "devDependencies": {
     "@lunelson/sass-throw": "^1.0.1",
-    "gulp": "^4.0.0",
-    "gulp-diff": "^1.0.0",
-    "gulp-rename": "^1.4.0",
-    "gulp-sass": "^3.2.1"
+    "ava": "^1.0.1",
+    "del": "^3.0.0",
+    "node-sass": "^4.11.0",
+    "sass": "^1.15.2",
+    "write": "^1.0.3"
   },
   "peerDependencies": {
-    "@lunelson/sass-throw": "^1.0.1"
+    "@lunelson/sass-throw": "^2.0.0"
   },
   "publishConfig": {
     "access": "public"
+  },
+  "ava": {
+    "verbose": true,
+    "failFast": true,
+    "files": [
+      "tests/*{.js,.scss}"
+    ],
+    "sources": [
+      "_index.scss",
+      "scss/**/*.scss",
+      "!**/_*/**"
+    ]
   }
 }

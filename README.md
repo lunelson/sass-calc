@@ -7,7 +7,7 @@
 
 Harness the power of CSS `calc()` expressions in Sass math.
 
-Use `add()`, `subtract()`, `multiply()` and `divide()` on values which have incompatible or unknown units, or which are `var()` expressions, or which are `calc()` expressions themselves. Return a new `calc()` expression, or use straight math if possible.
+Use `add()`, `subtract()`, `multiply()` and `divide()` on values which have incompatible or unknown units, or which are `var()` expressions, or which are `calc()` expressions themselves. Return a new `calc()` expression, or use straight math where possible.
 
 ```sh
 # in your project
