@@ -4,7 +4,7 @@
 }
 
 @function __strip($n) {
-  @if not __is-number($n) { @return error("cannot manipulate unit of non-number"); }
+  @if not __is-number($n) { @return throw-error("cannot manipulate unit of non-number"); }
   @return if(unitless($n), $n, $n / __one(unit($n)));
 }
 
@@ -97,7 +97,7 @@
 // --------------------------------------------------------------------------
 
 @function __str-last-index($str, $substr) {
-  @if not __is-string($str, $substr) { @return error("non-string argument(s) supplied"); }
+  @if not __is-string($str, $substr) { @return throw-error("non-string argument(s) supplied"); }
   $length: str-length($str);
   @for $n from $length - str-length($substr) through 1 {
     $index: str-index(str-slice($str, $n + 1, $length), $substr);
@@ -120,6 +120,6 @@
     }
   } @else {
     @debug 'made it';
-    @return error("invalid value for calc expression");
+    @return throw-error("invalid value for calc expression");
   }
 }
