@@ -3,45 +3,41 @@
 // --------------------------------------------------------------------------
 
 @function add($expr1, $expr2){
-  @if __is-number($expr2) and $expr2 < 0 { @return subtract($expr1, $expr2/-1); }
-  // @if __any-null($expr1, $expr2) { @return zip($expr1, $expr2); }
-  @if __any-bool($expr1, $expr2) { @return throw-error('bool is an invalid operand'); }
-  @if __any-list($expr1, $expr2) { @return throw-error('list is an invalid operand'); }
-  @if __is-zero($expr1, $expr2) { @return 0%; }
-  @if not $expr1 or __is-zero($expr1) { @return $expr2; }
-  @if not $expr2 or __is-zero($expr2) { @return $expr1; }
-  @if __can-sum($expr1, $expr2) { @return $expr1 + $expr2; }
-  @return unquote('calc(#{__format($expr1)} + #{__format($expr2)})');
+  @if --sc-is-number($expr2) and $expr2 < 0 { @return subtract($expr1, $expr2/-1); }
+  @if --sc-any-bool($expr1, $expr2) { @return throw-error('bool is an invalid operand'); }
+  @if --sc-any-list($expr1, $expr2) { @return throw-error('list is an invalid operand'); }
+  @if --sc-is-zero($expr1, $expr2) { @return 0%; }
+  @if not $expr1 or --sc-is-zero($expr1) { @return $expr2; }
+  @if not $expr2 or --sc-is-zero($expr2) { @return $expr1; }
+  @if --sc-can-sum($expr1, $expr2) { @return $expr1 + $expr2; }
+  @return unquote('calc(#{--sc-format($expr1)} + #{--sc-format($expr2)})');
 }
 
 @function subtract($expr1, $expr2){
-  @if __is-number($expr2) and $expr2 < 0 { @return add($expr1, $expr2/-1); }
-  // @if __any-null($expr1, $expr2) { @return zip($expr1, $expr2); }
-  @if __any-bool($expr1, $expr2) { @return throw-error('bool is an invalid operand'); }
-  @if __any-list($expr1, $expr2) { @return throw-error('list is an invalid operand'); }
-  @if __is-zero($expr1, $expr2) { @return 0%; }
-  @if not $expr2 or __is-zero($expr2) { @return $expr1; }
-  @if __can-sum($expr1, $expr2) { @return $expr1 - $expr2; }
-  @return unquote('calc(#{__format($expr1)} - #{__format($expr2)})');
+  @if --sc-is-number($expr2) and $expr2 < 0 { @return add($expr1, $expr2/-1); }
+  @if --sc-any-bool($expr1, $expr2) { @return throw-error('bool is an invalid operand'); }
+  @if --sc-any-list($expr1, $expr2) { @return throw-error('list is an invalid operand'); }
+  @if --sc-is-zero($expr1, $expr2) { @return 0%; }
+  @if not $expr2 or --sc-is-zero($expr2) { @return $expr1; }
+  @if --sc-can-sum($expr1, $expr2) { @return $expr1 - $expr2; }
+  @return unquote('calc(#{--sc-format($expr1)} - #{--sc-format($expr2)})');
 }
 
 @function multiply($expr, $n){
-  // @if __any-null($expr, $n) { @return zip($expr, $n); }
-  @if __any-bool($expr, $n) { @return throw-error('bool is an invalid factor'); }
-  @if __any-list($expr, $n) { @return throw-error('list is an invalid factor'); }
-  @if __is-zero($expr) or __is-zero($n) { @return 0%; }
+  @if --sc-any-bool($expr, $n) { @return throw-error('bool is an invalid factor'); }
+  @if --sc-any-list($expr, $n) { @return throw-error('list is an invalid factor'); }
+  @if --sc-is-zero($expr) or --sc-is-zero($n) { @return 0%; }
   @if not $expr { @return throw-error('#{inspect($expr)} is an invalid factor'); }
   @if not $n { @return throw-error('#{inspect($n)} is an invalid factor'); }
-  @if __can-multiply($expr, $n) { @return $expr * $n; }
-  @return unquote('calc(#{__format($expr)} * #{$n})');
+  @if --sc-can-multiply($expr, $n) { @return $expr * $n; }
+  @return unquote('calc(#{--sc-format($expr)} * #{$n})');
 }
 
 @function divide($expr, $n){
-  // @if __any-null($expr, $n) { @return zip($expr, $n); }
-  @if __any-bool($expr, $n) { @return throw-error('bool is an invalid operand'); }
-  @if __any-list($expr, $n) { @return throw-error('list is an invalid operand'); }
-  @if __is-zero($expr) { @return 0%; }
-  @if not $n or (__is-number($n) and (__is-zero($n) or (not unitless($n)))) { @return throw-error('#{inspect($n)} is an invalid divisor'); }
-  @if __can-divide($expr, $n) { @return $expr / $n; }
-  @return unquote('calc(#{__format($expr)} / #{$n})');
+  @if --sc-any-bool($expr, $n) { @return throw-error('bool is an invalid operand'); }
+  @if --sc-any-list($expr, $n) { @return throw-error('list is an invalid operand'); }
+  @if --sc-is-zero($expr) { @return 0%; }
+  @if not $n or (--sc-is-number($n) and (--sc-is-zero($n) or (not unitless($n)))) { @return throw-error('#{inspect($n)} is an invalid divisor'); }
+  @if --sc-can-divide($expr, $n) { @return $expr / $n; }
+  @return unquote('calc(#{--sc-format($expr)} / #{$n})');
 }

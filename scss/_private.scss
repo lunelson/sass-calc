@@ -1,71 +1,71 @@
-@function __one($unit:'') {
+@function --sc-one($unit:'') {
   $one: ('em': 1em, 'ex': 1ex, 'ch': 1ch, 'rem': 1rem, '%': 1%, 'vw': 1vw, 'vh': 1vh, 'vmin': 1vmin, 'vmax': 1vmax, 'cm': 1cm, 'mm': 1mm, 'in': 1in, 'px': 1px, 'pt': 1pt, 'pc': 1pc, 'deg': 1deg, 'grad': 1grad, 'rad': 1rad, 'turn': 1turn, 's': 1s, 'ms': 1ms, 'dpi': 1dpi, 'dpcm': 1dpcm, 'dppx': 1dppx);
   @return map-get($one, $unit) or 1;
 }
 
-@function __strip($n) {
-  @if not __is-number($n) { @return throw-error("cannot manipulate unit of non-number"); }
-  @return if(unitless($n), $n, $n / __one(unit($n)));
+@function --sc-strip($n) {
+  @if not --sc-is-number($n) { @return throw-error("cannot manipulate unit of non-number"); }
+  @return if(unitless($n), $n, $n / --sc-one(unit($n)));
 }
 
 //
 // type/value checks
 // --------------------------------------------------------------------------
 
-@function __any-null($args...) {
+@function --sc-any-null($args...) {
   @each $arg in $args { @if type-of($arg) == 'null' { @return true; } }
   @return false;
 }
 
-@function __any-bool($args...) {
+@function --sc-any-bool($args...) {
   @each $arg in $args { @if type-of($arg) == 'bool' { @return true; } }
   @return false;
 }
 
-@function __any-list($args...) {
+@function --sc-any-list($args...) {
   @each $arg in $args { @if type-of($arg) == 'list' and length($arg) > 1 { @return true; } }
   @return false;
 }
 
-@function __is-bool($args...) {
+@function --sc-is-bool($args...) {
   @each $arg in $args { @if type-of($arg) != 'bool' { @return false; } }
   @return true;
 }
 
-@function __is-list($args...) {
+@function --sc-is-list($args...) {
   @each $arg in $args { @if type-of($arg) != 'list' or length($arg) > 1 { @return false; } }
   @return true;
 }
 
-@function __is-number($args...) {
+@function --sc-is-number($args...) {
   @each $arg in $args { @if type-of($arg) != 'number' { @return false; } }
   @return true;
 }
 
-@function __is-string($args...) {
+@function --sc-is-string($args...) {
   @each $arg in $args { @if type-of($arg) != 'string' { @return false; } }
   @return true;
 }
 
-@function __any-zero($args...) {
+@function --sc-any-zero($args...) {
   @each $arg in $args {
     @if type-of($arg) == 'number' {
-      @if __strip($arg) == 0 { @return true; }
+      @if --sc-strip($arg) == 0 { @return true; }
     }
   }
   @return false;
 }
 
-@function __is-zero($args...) {
+@function --sc-is-zero($args...) {
   @each $arg in $args {
     @if type-of($arg) != 'number' { @return false; }
-    @if __strip($arg) != 0 { @return false; }
+    @if --sc-strip($arg) != 0 { @return false; }
   }
   @return true;
 }
 
-@function __is-unitless($args...) {
-  // @if not __is-number($args...) { @return false; }
+@function --sc-is-unitless($args...) {
+  // @if not --sc-is-number($args...) { @return false; }
   @each $arg in $args {
     @if type-of($arg) != 'number' { @return false; }
     @if not unitless($arg) { @return false; }
@@ -77,18 +77,18 @@
 // operability checks
 // --------------------------------------------------------------------------
 
-@function __can-sum($a, $b){
-  @if __is-number($a, $b) { @return comparable($a, $b); }
+@function --sc-can-sum($a, $b){
+  @if --sc-is-number($a, $b) { @return comparable($a, $b); }
   @return false;
 }
 
-@function __can-multiply($a, $b){
-  @if __is-number($a, $b) { @return unitless($a) or unitless($b); }
+@function --sc-can-multiply($a, $b){
+  @if --sc-is-number($a, $b) { @return unitless($a) or unitless($b); }
   @return false;
 }
 
-@function __can-divide($a, $b){
-  @if __is-number($a, $b) { @return unitless($b); }
+@function --sc-can-divide($a, $b){
+  @if --sc-is-number($a, $b) { @return unitless($b); }
   @return false;
 }
 
@@ -96,8 +96,8 @@
 // utils
 // --------------------------------------------------------------------------
 
-@function __str-last-index($str, $substr) {
-  @if not __is-string($str, $substr) { @return throw-error("non-string argument(s) supplied"); }
+@function --sc-str-last-index($str, $substr) {
+  @if not --sc-is-string($str, $substr) { @return throw-error("non-string argument(s) supplied"); }
   $length: str-length($str);
   @for $n from $length - str-length($substr) through 1 {
     $index: str-index(str-slice($str, $n + 1, $length), $substr);
@@ -106,13 +106,13 @@
   @return null;
 }
 
-@function __format($value){
+@function --sc-format($value){
   @if type-of($value) == 'number' {
     @return if(unitless($value), $value * 1%, $value);
   } @else if type-of($value) == 'string' {
     $is-calc: str-index($value, 'calc') == 1;
     $start: str-index($value, '(');
-    $end: __str-last-index($value, ')');
+    $end: --sc-str-last-index($value, ')');
     @if $is-calc and $start and $end {
       @return unquote(str-slice($value, $start, $end));
     } @else {
