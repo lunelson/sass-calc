@@ -2,22 +2,17 @@
   /*
   invalid args
   ////////////////////////
-  error: "bool is an invalid operand";
-  error: "bool is an invalid operand";
-  error: "bool is an invalid operand";
-  error: "list is an invalid operand";
-  error: "list is an invalid operand";
+  content: "ERROR: bool is an invalid operand";
+  content: "ERROR: bool is an invalid operand";
+  content: "ERROR: bool is an invalid operand";
+  content: "ERROR: list is an invalid operand";
+  content: "ERROR: list is an invalid operand";
   */
   content: "ERROR: bool is an invalid operand";
-  error: last-error();
   content: "ERROR: bool is an invalid operand";
-  error: last-error();
   content: "ERROR: bool is an invalid operand";
-  error: last-error();
   content: "ERROR: list is an invalid operand";
-  error: last-error();
   content: "ERROR: list is an invalid operand";
-  error: last-error();
   /*
   string arguments: calc() or var()
   ////////////////////////

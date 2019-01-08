@@ -22,11 +22,11 @@ $throw-catch: true !global;
   content: "list is an invalid factor";
   content: "list is an invalid factor";
   */
-  content: inspect(multiply(1.5em, false) or last-error());
-  content: inspect(multiply(false, 1.5) or last-error());
-  content: inspect(multiply(false, 1.5em) or last-error());
-  content: inspect(multiply(1.5em, (1em 3)) or last-error());
-  content: inspect(multiply((foo bar), 1.5em) or last-error());
+  content: inspect(multiply(1.5em, false));
+  content: inspect(multiply(false, 1.5));
+  content: inspect(multiply(false, 1.5em));
+  content: inspect(multiply(1.5em, (1em 3)));
+  content: inspect(multiply((foo bar), 1.5em));
   /*
   string arguments
   ////////////////////////
@@ -37,12 +37,12 @@ $throw-catch: true !global;
   content: calc((100% - 10px) * 1.5em);
   content: calc((100% - 10px) * 2);
   */
-  content: inspect(multiply(1.5em, var(--foo)) or last-error());
-  content: inspect(multiply(var(--foo), 1.5em) or last-error());
-  content: inspect(multiply(var(--foo), 2) or last-error());
-  content: inspect(multiply(1.5em, calc(100% - 10px)) or last-error());
-  content: inspect(multiply(calc(100% - 10px), 1.5em) or last-error());
-  content: inspect(multiply(calc(100% - 10px), 2) or last-error());
+  content: inspect(multiply(1.5em, var(--foo)));
+  content: inspect(multiply(var(--foo), 1.5em));
+  content: inspect(multiply(var(--foo), 2));
+  content: inspect(multiply(1.5em, calc(100% - 10px)));
+  content: inspect(multiply(calc(100% - 10px), 1.5em));
+  content: inspect(multiply(calc(100% - 10px), 2));
   /*
   negative numbers
   ////////////////////////
@@ -51,10 +51,10 @@ $throw-catch: true !global;
   content: -2em;
   content: calc(var(--bar) * 2);
   */
-  content: inspect(multiply(var(--bar), -2) or last-error());
-  content: inspect(multiply(1.5em, -2) or last-error());
-  content: inspect(multiply(-1em, 2) or last-error());
-  content: inspect(multiply(var(--bar), 2) or last-error());
+  content: inspect(multiply(var(--bar), -2));
+  content: inspect(multiply(1.5em, -2));
+  content: inspect(multiply(-1em, 2));
+  content: inspect(multiply(var(--bar), 2));
   /*
   bad factors
   ////////////////////////
@@ -62,15 +62,15 @@ $throw-catch: true !global;
   content: "null is an invalid factor";
   content: "null is an invalid factor";
   */
-  content: inspect(multiply(1.5em, (a b)) or last-error());
-  content: inspect(multiply(-1, null) or last-error());
-  content: inspect(multiply(null, var(--baz)) or last-error());
+  content: inspect(multiply(1.5em, (a b)));
+  content: inspect(multiply(-1, null));
+  content: inspect(multiply(null, var(--baz)));
   /*
   unit vs unitless zero
   ////////////////////////
   content: 0%;
   content: 0%;
   */
-  content: inspect(multiply(0px, 2) or last-error());
-  content: inspect(multiply(0, 2) or last-error());
+  content: inspect(multiply(0px, 2));
+  content: inspect(multiply(0, 2));
 }

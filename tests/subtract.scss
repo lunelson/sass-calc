@@ -14,17 +14,17 @@ $throw-catch: true !global;
   /*
   invalid args
   ////////////////////////
-  content: "bool is an invalid operand";
-  content: "bool is an invalid operand";
-  content: "bool is an invalid operand";
-  content: "list is an invalid operand";
-  content: "list is an invalid operand";
+  content: "ERROR: bool is an invalid operand";
+  content: "ERROR: bool is an invalid operand";
+  content: "ERROR: bool is an invalid operand";
+  content: "ERROR: list is an invalid operand";
+  content: "ERROR: list is an invalid operand";
   */
-  content: inspect(subtract(1.5em, false) or last-error());
-  content: inspect(subtract(false, 1.5) or last-error());
-  content: inspect(subtract(false, 1.5em) or last-error());
-  content: inspect(subtract(1.5em, (1em 3)) or last-error());
-  content: inspect(subtract((foo bar), 1.5em) or last-error());
+  content: inspect(subtract(1.5em, false));
+  content: inspect(subtract(false, 1.5));
+  content: inspect(subtract(false, 1.5em));
+  content: inspect(subtract(1.5em, (1em 3)));
+  content: inspect(subtract((foo bar), 1.5em));
   /*
   string arguments: calc() or var()
   ////////////////////////
@@ -33,10 +33,10 @@ $throw-catch: true !global;
   content: calc(1.5em - (100% - 10px));
   content: calc((100% - 10px) - 1.5em);
   */
-  content: inspect(subtract(1.5em, var(--foo)) or last-error());
-  content: inspect(subtract(var(--foo), 1.5em) or last-error());
-  content: inspect(subtract(1.5em, calc(100% - 10px)) or last-error());
-  content: inspect(subtract(calc(100% - 10px), 1.5em) or last-error());
+  content: inspect(subtract(1.5em, var(--foo)));
+  content: inspect(subtract(var(--foo), 1.5em));
+  content: inspect(subtract(1.5em, calc(100% - 10px)));
+  content: inspect(subtract(calc(100% - 10px), 1.5em));
   /*
   negative number
   ////////////////////////
@@ -45,10 +45,10 @@ $throw-catch: true !global;
   content: -2.5em;
   content: calc(-1rem - 1.5em);
   */
-  content: inspect(subtract(1.5em, -1em) or last-error());
-  content: inspect(subtract(1.5em, -1rem) or last-error());
-  content: inspect(subtract(-1em, 1.5em) or last-error());
-  content: inspect(subtract(-1rem, 1.5em) or last-error());
+  content: inspect(subtract(1.5em, -1em));
+  content: inspect(subtract(1.5em, -1rem));
+  content: inspect(subtract(-1em, 1.5em));
+  content: inspect(subtract(-1rem, 1.5em));
   /*
   unitless number
   ////////////////////////
@@ -56,39 +56,39 @@ $throw-catch: true !global;
   content: 2.5em;
   content: -2.5em;
   */
-  content: inspect(subtract(2,3) or last-error());
-  content: inspect(subtract(1.5em, -1) or last-error());
-  content: inspect(subtract(-1, 1.5em) or last-error());
+  content: inspect(subtract(2,3));
+  content: inspect(subtract(1.5em, -1));
+  content: inspect(subtract(-1, 1.5em));
   /*
   matched units
   ////////////////////////
   content: 0.5em;
   content: -0.5em;
   */
-  content: inspect(subtract(1.5em, 1em) or last-error());
-  content: inspect(subtract(1em, 1.5em) or last-error());
+  content: inspect(subtract(1.5em, 1em));
+  content: inspect(subtract(1em, 1.5em));
   /*
   mixed units
   ////////////////////////
   content: calc(1.5em - 1rem);
   content: calc(1rem - 1.5em);
   */
-  content: inspect(subtract(1.5em, 1rem) or last-error());
-  content: inspect(subtract(1rem, 1.5em) or last-error());
+  content: inspect(subtract(1.5em, 1rem));
+  content: inspect(subtract(1rem, 1.5em));
   /*
   unitless zero
   ////////////////////////
   content: -2em;
   content: 2em;
   */
-  content: inspect(subtract(0, 2em) or last-error());
-  content: inspect(subtract(2em, 0) or last-error());
+  content: inspect(subtract(0, 2em));
+  content: inspect(subtract(2em, 0));
   /*
   unit zero
   ////////////////////////
   content: calc(0px - 2em);
   content: 2em;
   */
-  content: inspect(subtract(0px, 2em) or last-error());
-  content: inspect(subtract(2em, 0px) or last-error());
+  content: inspect(subtract(0px, 2em));
+  content: inspect(subtract(2em, 0px));
 }
