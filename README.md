@@ -51,7 +51,7 @@ $expr: calc(100vw - 50%);
 Refs:
 
 - https://www.sitepoint.com/sass-basics-operators/
-- https://www.sitepoint.com/understanding-sass-us/
+- https://www.sitepoint.com/understanding-sass-units/
 - http://caniuse.com/#feat=calc
 
 Questions? [Twitter me.](https://twitter.com/lunelson)
