@@ -1,11 +1,13 @@
-# sass-calc
+# Sass Calc
+
+[![](https://img.shields.io/travis/lunelson/sass-calc.svg?style=flat-square)](#travis)
+[![](https://img.shields.io/npm/v/@lunelson/sass-calc.svg?style=flat-square)](#releases)
+[![](https://img.shields.io/github/license/lunelson/sass-calc.svg?style=flat-square)](#license)
+[![](https://img.shields.io/npm/dt/@lunelson/sass-calc.svg?style=flat-square)](#download)
+
+Easily build complex `calc()` expressions in Sass. Leverage `calc()` to do math that Sass can't.
 
 !['sass calc'](sass-calc.png)
-
-[![npm published v](https://img.shields.io/npm/v/@lunelson/sass-calc.svg)]()
-[![Build Status](https://travis-ci.org/lunelson/sass-calc.svg?branch=master)](https://travis-ci.org/lunelson/sass-calc)
-
-Harness the power of CSS `calc()` expressions in Sass math.
 
 Use `add()`, `subtract()`, `multiply()` and `divide()` on values which have incompatible or unknown units, or which are `var()` expressions, or which are `calc()` expressions themselves. Return a new `calc()` expression, or use straight math where possible.
 

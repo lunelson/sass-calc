@@ -42,6 +42,11 @@
   @return true;
 }
 
+@function --sc-any-number($args...) {
+  @each $arg in $args { @if type-of($arg) == 'number' { @return true; } }
+  @return false;
+}
+
 @function --sc-is-string($args...) {
   @each $arg in $args { @if type-of($arg) != 'string' { @return false; } }
   @return true;
@@ -65,7 +70,6 @@
 }
 
 @function --sc-is-unitless($args...) {
-  // @if not --sc-is-number($args...) { @return false; }
   @each $arg in $args {
     @if type-of($arg) != 'number' { @return false; }
     @if not unitless($arg) { @return false; }
@@ -73,6 +77,13 @@
   @return true;
 }
 
+// @function --sc-bad-factor($n) {
+//   @return (not $n or (--sc-is-number($n) and (not unitless($n))));
+// }
+
+@function --sc-bad-divisor($n) {
+  @return (not $n or (--sc-is-number($n) and (--sc-is-zero($n) or (not unitless($n)))));
+}
 //
 // operability checks
 // --------------------------------------------------------------------------
@@ -108,7 +119,8 @@
 
 @function --sc-format($value){
   @if type-of($value) == 'number' {
-    @return if(unitless($value), $value * 1%, $value);
+    @return $value;
+    // @return if(unitless($value), $value * 1%, $value); // killed
   } @else if type-of($value) == 'string' {
     $is-calc: str-index($value, 'calc') == 1;
     $start: str-index($value, '(');

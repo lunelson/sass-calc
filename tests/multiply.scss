@@ -16,30 +16,38 @@ $throw-catch: true !global;
   /*
   non-number
   ////////////////////////
-  content: "bool is an invalid factor";
-  content: "bool is an invalid factor";
-  content: "bool is an invalid factor";
-  content: "list is an invalid factor";
-  content: "list is an invalid factor";
+  content: "ERROR: bool is an invalid factor";
+  content: "ERROR: bool is an invalid factor";
+  content: "ERROR: bool is an invalid factor";
+  content: "ERROR: list is an invalid factor";
+  content: "ERROR: list is an invalid factor";
+  content: calc(hello * 1);
+  content: calc(1 * hello);
+  content: calc(hello * hello);
   */
   content: inspect(multiply(1.5em, false));
   content: inspect(multiply(false, 1.5));
   content: inspect(multiply(false, 1.5em));
   content: inspect(multiply(1.5em, (1em 3)));
   content: inspect(multiply((foo bar), 1.5em));
+  content: inspect(multiply('hello', 1));
+  content: inspect(multiply(1, 'hello'));
+  content: inspect(multiply('hello', 'hello'));
   /*
   string arguments
   ////////////////////////
   content: calc(1.5em * var(--foo));
   content: calc(var(--foo) * 1.5em);
   content: calc(var(--foo) * 2);
-  content: calc(1.5em * calc(100% - 10px));
+  content: calc(2 * var(--foo));
+  content: calc(1.5em * (100% - 10px));
   content: calc((100% - 10px) * 1.5em);
   content: calc((100% - 10px) * 2);
   */
   content: inspect(multiply(1.5em, var(--foo)));
   content: inspect(multiply(var(--foo), 1.5em));
   content: inspect(multiply(var(--foo), 2));
+  content: inspect(multiply(2, var(--foo)));
   content: inspect(multiply(1.5em, calc(100% - 10px)));
   content: inspect(multiply(calc(100% - 10px), 1.5em));
   content: inspect(multiply(calc(100% - 10px), 2));

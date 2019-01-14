@@ -23,21 +23,21 @@
   @return unquote('calc(#{--sc-format($expr1)} - #{--sc-format($expr2)})');
 }
 
-@function multiply($expr, $n){
-  @if --sc-any-bool($expr, $n) { @return throw-error('bool is an invalid factor'); }
-  @if --sc-any-list($expr, $n) { @return throw-error('list is an invalid factor'); }
-  @if --sc-is-zero($expr) or --sc-is-zero($n) { @return 0%; }
-  @if not $expr { @return throw-error('#{inspect($expr)} is an invalid factor'); }
-  @if not $n { @return throw-error('#{inspect($n)} is an invalid factor'); }
-  @if --sc-can-multiply($expr, $n) { @return $expr * $n; }
-  @return unquote('calc(#{--sc-format($expr)} * #{$n})');
+@function multiply($expr1, $expr2){
+  @if --sc-any-bool($expr1, $expr2) { @return throw-error('bool is an invalid factor'); }
+  @if --sc-any-list($expr1, $expr2) { @return throw-error('list is an invalid factor'); }
+  @if --sc-is-zero($expr1) or --sc-is-zero($expr2) { @return 0%; }
+  @if not $expr1 { @return throw-error('#{inspect($expr1)} is an invalid factor'); }
+  @if not $expr2 { @return throw-error('#{inspect($expr2)} is an invalid factor'); }
+  @if --sc-can-multiply($expr1, $expr2) { @return $expr1 * $expr2; }
+  @return unquote('calc(#{--sc-format($expr1)} * #{--sc-format($expr2)})');
 }
 
 @function divide($expr, $n){
   @if --sc-any-bool($expr, $n) { @return throw-error('bool is an invalid operand'); }
   @if --sc-any-list($expr, $n) { @return throw-error('list is an invalid operand'); }
   @if --sc-is-zero($expr) { @return 0%; }
-  @if not $n or (--sc-is-number($n) and (--sc-is-zero($n) or (not unitless($n)))) { @return throw-error('#{inspect($n)} is an invalid divisor'); }
+  @if --sc-bad-divisor($n) { @return throw-error('#{inspect($n)} is an invalid divisor'); }
   @if --sc-can-divide($expr, $n) { @return $expr / $n; }
   @return unquote('calc(#{--sc-format($expr)} / #{$n})');
 }

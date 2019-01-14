@@ -2,31 +2,39 @@
   /*
   non-number
   ////////////////////////
-  content: "bool is an invalid factor";
-  content: "bool is an invalid factor";
-  content: "bool is an invalid factor";
-  content: "list is an invalid factor";
-  content: "list is an invalid factor";
+  content: "ERROR: bool is an invalid factor";
+  content: "ERROR: bool is an invalid factor";
+  content: "ERROR: bool is an invalid factor";
+  content: "ERROR: list is an invalid factor";
+  content: "ERROR: list is an invalid factor";
+  content: calc(hello * 1);
+  content: calc(1 * hello);
+  content: calc(hello * hello);
   */
   content: "ERROR: bool is an invalid factor";
   content: "ERROR: bool is an invalid factor";
   content: "ERROR: bool is an invalid factor";
   content: "ERROR: list is an invalid factor";
   content: "ERROR: list is an invalid factor";
+  content: calc(hello * 1);
+  content: calc(1 * hello);
+  content: calc(hello * hello);
   /*
   string arguments
   ////////////////////////
   content: calc(1.5em * var(--foo));
   content: calc(var(--foo) * 1.5em);
   content: calc(var(--foo) * 2);
-  content: calc(1.5em * calc(100% - 10px));
+  content: calc(2 * var(--foo));
+  content: calc(1.5em * (100% - 10px));
   content: calc((100% - 10px) * 1.5em);
   content: calc((100% - 10px) * 2);
   */
   content: calc(1.5em * var(--foo));
   content: calc(var(--foo) * 1.5em);
   content: calc(var(--foo) * 2);
-  content: calc(1.5em * calc(100% - 10px));
+  content: calc(2 * var(--foo));
+  content: calc(1.5em * (100% - 10px));
   content: calc((100% - 10px) * 1.5em);
   content: calc((100% - 10px) * 2);
   /*
