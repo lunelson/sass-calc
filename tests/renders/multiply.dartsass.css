@@ -1,6 +1,6 @@
 .multiply {
   /*
-  non-number
+  bad arguments
   ////////////////////////
   content: "ERROR: bool is an invalid factor";
   content: "ERROR: bool is an invalid factor";
@@ -11,11 +11,11 @@
   content: calc(1 * hello);
   content: calc(hello * hello);
   */
-  content: "ERROR: bool is an invalid factor";
-  content: "ERROR: bool is an invalid factor";
-  content: "ERROR: bool is an invalid factor";
-  content: "ERROR: list is an invalid factor";
-  content: "ERROR: list is an invalid factor";
+  content: "ERROR: multiply($expr1, $expr2): $expr2 [false] is not a valid factor";
+  content: "ERROR: multiply($expr1, $expr2): $expr1 [false] is not a valid factor";
+  content: "ERROR: multiply($expr1, $expr2): $expr1 [false] is not a valid factor";
+  content: "ERROR: multiply($expr1, $expr2): $expr2 [1em 3] is not a valid factor";
+  content: "ERROR: multiply($expr1, $expr2): $expr1 [foo bar] is not a valid factor";
   content: calc(hello * 1);
   content: calc(1 * hello);
   content: calc(hello * hello);
@@ -56,9 +56,9 @@
   content: "null is an invalid factor";
   content: "null is an invalid factor";
   */
-  content: "ERROR: list is an invalid factor";
-  content: "ERROR: null is an invalid factor";
-  content: "ERROR: null is an invalid factor";
+  content: "ERROR: multiply($expr1, $expr2): $expr2 [a b] is not a valid factor";
+  content: "ERROR: multiply($expr1, $expr2): $expr2 [null] is not a valid factor";
+  content: "ERROR: multiply($expr1, $expr2): $expr1 [null] is not a valid factor";
   /*
   unit vs unitless zero
   ////////////////////////

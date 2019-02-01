@@ -1,0 +1,30 @@
+@import 'deps';
+
+//      _                _
+//     | |              | |
+//   __| | ___  ___ __ _| | ___
+//  / _` |/ _ \/ __/ _` | |/ __|
+// | (_| |  __/ (_| (_| | | (__
+//  \__,_|\___|\___\__,_|_|\___|
+
+$throw-catch: true !global;
+
+.decalc {
+  /*
+  bad arguments
+  */
+  content: inspect(decalc(hello world));
+  content: inspect(decalc(null));
+  content: inspect(decalc(true));
+  content: inspect(decalc('calc(malformed'));
+  content: inspect(decalc('calcmalformed)'));
+  /*
+  string arguments
+  */
+  content: inspect(decalc('hello world'));
+  content: inspect(decalc('calculate'));
+  content: inspect(decalc('calc'));
+  content: inspect(decalc('calc(some-expression)'));
+  content: inspect(decalc('var(--foobar)'));
+  content: inspect(decalc('var(--foobar)'));
+}

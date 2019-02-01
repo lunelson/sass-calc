@@ -39,7 +39,7 @@ $throw-catch: true !global;
   content: inspect(divide(var(--foo), 1.5em));
   content: inspect(divide(var(--foo), 2));
   content: inspect(divide(1.5em, calc(100% - 10px)));
-  content: inspect(divide(calc(100% - 10px), 1.5em));
+  content: inspect(divide(calc(100% - 10px), 0));
   content: inspect(divide(calc(100% - 10px), 2));
   /*
   negative numbers

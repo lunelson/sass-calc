@@ -1,43 +1,106 @@
 //
-// main
+// public
 // --------------------------------------------------------------------------
 
+// @function decalc($value){
+//   // if number, just return
+//   @if type-of($value) == 'number' {
+//     @return $value;
+//   // if string, could be calc(), or other css function-expression incl var()
+//   } @else if type-of($value) == 'string' {
+//     $is-calc: str-index($value, 'calc') == 1;
+//     $start: str-index($value, '(');
+//     $end: --sc-str-last-index($value, ')');
+//     @if ($start and not $end) or ($end and not $start) {
+//       @return throw-error('decalc($value): $value [#{inspect($value)}] seems to be malformed');
+//     } @else if $is-calc and $start and $end {
+//       @return unquote(str-slice($value, $start, $end));
+//     } @else {
+//       @return unquote('#{$value}');
+//     }
+//   } @else {
+//     @return throw-error('decalc($value): $value [#{inspect($value)}] is not valid for (de)formatting');
+//   }
+// }
+
+@function decalc($value){
+  // if non-string, return early
+  @if type-of($value) != 'string' { @return $value; }
+  // otherwise might be calc(), or other css function-expression incl var()
+  @else {
+    $is-calc: str-index($value, 'calc') == 1;
+    $start: str-index($value, '(');
+    $end: --sc-str-last-index($value, ')');
+    @if ($start and not $end) or ($end and not $start) {
+      // error if non-matching parentheses
+      @return throw-error('decalc($value): $value [#{inspect($value)}] seems to be malformed');
+    } @else if $is-calc and $start and $end {
+      // if calc, return unquoted parenthetical expression
+      @return unquote(str-slice($value, $start, $end));
+    } @else {
+      // if non-calc, return unquoted string
+      @return unquote('#{$value}');
+    }
+  }
+}
+
 @function add($expr1, $expr2){
-  @if --sc-is-number($expr2) and $expr2 < 0 { @return subtract($expr1, $expr2/-1); }
-  @if --sc-any-bool($expr1, $expr2) { @return throw-error('bool is an invalid operand'); }
-  @if --sc-any-list($expr1, $expr2) { @return throw-error('list is an invalid operand'); }
+  // return normal math if possible
+  @if --sc-can-sum($expr1, $expr2) { @return $expr1 + $expr2; }
+  // error if either expr is a bool or a list
+  @if --sc-bad-argument($expr1) { @return throw-error('add($expr1, $expr2): $expr1 [#{inspect($expr1)}] is not a valid addend'); }
+  @if --sc-bad-argument($expr2) { @return throw-error('add($expr1, $expr2): $expr2 [#{inspect($expr2)}] is not a valid addend'); }
+  // if expr2 is negative, flip and call opposite operation
+  @if type-of($expr2) == 'number' and $expr2 < 0 { @return subtract($expr1, $expr2/-1); }
+  // if both exprs are zero, return 0%
   @if --sc-is-zero($expr1, $expr2) { @return 0%; }
+  // if either is zero, return the other
   @if not $expr1 or --sc-is-zero($expr1) { @return $expr2; }
   @if not $expr2 or --sc-is-zero($expr2) { @return $expr1; }
-  @if --sc-can-sum($expr1, $expr2) { @return $expr1 + $expr2; }
-  @return unquote('calc(#{--sc-format($expr1)} + #{--sc-format($expr2)})');
+  // otherwise format and return calc expression
+  @return unquote('calc(#{decalc($expr1)} + #{decalc($expr2)})');
 }
 
 @function subtract($expr1, $expr2){
-  @if --sc-is-number($expr2) and $expr2 < 0 { @return add($expr1, $expr2/-1); }
-  @if --sc-any-bool($expr1, $expr2) { @return throw-error('bool is an invalid operand'); }
-  @if --sc-any-list($expr1, $expr2) { @return throw-error('list is an invalid operand'); }
-  @if --sc-is-zero($expr1, $expr2) { @return 0%; }
-  @if not $expr2 or --sc-is-zero($expr2) { @return $expr1; }
+  // return normal math if possible
   @if --sc-can-sum($expr1, $expr2) { @return $expr1 - $expr2; }
-  @return unquote('calc(#{--sc-format($expr1)} - #{--sc-format($expr2)})');
+  // error if either expr is a bool or a list
+  @if --sc-bad-argument($expr1) { @return throw-error('subtract($expr1, $expr2): $expr1 [#{inspect($expr1)}] is not a valid minuend'); }
+  @if --sc-bad-argument($expr2) { @return throw-error('subtract($expr1, $expr2): $expr2 [#{inspect($expr2)}] is not a valid subtrahend'); }
+  // if expr2 is negative, flip and call opposite operation
+  @if type-of($expr2) == 'number' and $expr2 < 0 { @return add($expr1, $expr2/-1); }
+  // if both exprs are zero unit, return 0%
+  @if --sc-is-zero($expr1, $expr2) { @return 0%; }
+  // if expr2 is zero unit, return expr1
+  @if not $expr2 or --sc-is-zero($expr2) { @return $expr1; }
+  // otherwise format and return calc expression
+  @return unquote('calc(#{decalc($expr1)} - #{decalc($expr2)})');
 }
 
 @function multiply($expr1, $expr2){
-  @if --sc-any-bool($expr1, $expr2) { @return throw-error('bool is an invalid factor'); }
-  @if --sc-any-list($expr1, $expr2) { @return throw-error('list is an invalid factor'); }
+  // if either expr is zero unit, return 0%
   @if --sc-is-zero($expr1) or --sc-is-zero($expr2) { @return 0%; }
-  @if not $expr1 { @return throw-error('#{inspect($expr1)} is an invalid factor'); }
-  @if not $expr2 { @return throw-error('#{inspect($expr2)} is an invalid factor'); }
+  // return normal math if possible
   @if --sc-can-multiply($expr1, $expr2) { @return $expr1 * $expr2; }
-  @return unquote('calc(#{--sc-format($expr1)} * #{--sc-format($expr2)})');
+  // error if either expr is a bool or a list or null
+  @if --sc-bad-factor($expr1) { @return throw-error('multiply($expr1, $expr2): $expr1 [#{inspect($expr1)}] is not a valid factor'); }
+  @if --sc-bad-factor($expr2) { @return throw-error('multiply($expr1, $expr2): $expr2 [#{inspect($expr2)}] is not a valid factor'); }
+  // @if not $expr1 { @return throw-error('multiply($expr1, $expr2): $expr1 [#{inspect($expr1)}] is not a valid factor'); }
+  // @if not $expr2 { @return throw-error('multiply($expr1, $expr2): $expr2 [#{inspect($expr2)}] is not a valid factor'); }
+  // otherwise format and return calc expression
+  @return unquote('calc(#{decalc($expr1)} * #{decalc($expr2)})');
 }
 
 @function divide($expr, $n){
-  @if --sc-any-bool($expr, $n) { @return throw-error('bool is an invalid operand'); }
-  @if --sc-any-list($expr, $n) { @return throw-error('list is an invalid operand'); }
+  // if expr is a zero unit, return 0%
   @if --sc-is-zero($expr) { @return 0%; }
-  @if --sc-bad-divisor($n) { @return throw-error('#{inspect($n)} is an invalid divisor'); }
+  // error if bad divisor
+  @if --sc-bad-divisor($n) { @return throw-error('divide($expr, $n): $n [#{inspect($n)}] is not a valid divisor'); }
+  // return normal math if possible
   @if --sc-can-divide($expr, $n) { @return $expr / $n; }
-  @return unquote('calc(#{--sc-format($expr)} / #{$n})');
+  // error if either expr is a bool or a list
+  @if --sc-bad-argument($expr) { @return throw-error('divide($expr, $n): $expr [#{inspect($expr)}] is not a valid dividend'); }
+  @if --sc-bad-argument($n) { @return throw-error('divide($expr, $n): $n [#{inspect($n)}] is not a valid divisor'); }
+  // otherwise format and return calc expression
+  @return unquote('calc(#{decalc($expr)} / #{$n})');
 }
