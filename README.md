@@ -1,9 +1,8 @@
 # Sass Calc
 
-[![](https://img.shields.io/travis/lunelson/sass-calc.svg?style=flat-square)](#travis)
-[![](https://img.shields.io/npm/v/@lunelson/sass-calc.svg?style=flat-square)](#releases)
-[![](https://img.shields.io/github/license/lunelson/sass-calc.svg?style=flat-square)](#license)
-[![](https://img.shields.io/npm/dt/@lunelson/sass-calc.svg?style=flat-square)](#download)
+[![](https://img.shields.io/travis/lunelson/sass-calc.svg?style=flat-square)](https://travis-ci.org/lunelson/sass-calc)
+[![](https://img.shields.io/npm/v/@lunelson/sass-calc.svg?style=flat-square)](https://www.npmjs.com/package/@lunelson/sass-calc)
+[![](https://img.shields.io/github/license/lunelson/sass-calc.svg?style=flat-square)](https://github.com/lunelson/sass-calc/blob/master/LICENSE)
 
 Easily build complex `calc()` expressions in Sass. Leverage `calc()` to do math that Sass can't.
 
