@@ -2,11 +2,11 @@
   /*
   invalid args
   ////////////////////////
-  content: "ERROR: bool is an invalid operand";
-  content: "ERROR: bool is an invalid operand";
-  content: "ERROR: bool is an invalid operand";
-  content: "ERROR: list is an invalid operand";
-  content: "ERROR: list is an invalid operand";
+  content: "ERROR: add($expr1, $expr2): $expr2 [false] is not a valid addend";
+  content: "ERROR: add($expr1, $expr2): $expr1 [false] is not a valid addend";
+  content: "ERROR: add($expr1, $expr2): $expr1 [false] is not a valid addend";
+  content: "ERROR: add($expr1, $expr2): $expr2 [1em 3] is not a valid addend";
+  content: "ERROR: add($expr1, $expr2): $expr1 [foo bar] is not a valid addend";
   */
   content: "ERROR: add($expr1, $expr2): $expr2 [false] is not a valid addend";
   content: "ERROR: add($expr1, $expr2): $expr1 [false] is not a valid addend";

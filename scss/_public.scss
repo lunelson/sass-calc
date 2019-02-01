@@ -2,27 +2,6 @@
 // public
 // --------------------------------------------------------------------------
 
-// @function decalc($value){
-//   // if number, just return
-//   @if type-of($value) == 'number' {
-//     @return $value;
-//   // if string, could be calc(), or other css function-expression incl var()
-//   } @else if type-of($value) == 'string' {
-//     $is-calc: str-index($value, 'calc') == 1;
-//     $start: str-index($value, '(');
-//     $end: --sc-str-last-index($value, ')');
-//     @if ($start and not $end) or ($end and not $start) {
-//       @return throw-error('decalc($value): $value [#{inspect($value)}] seems to be malformed');
-//     } @else if $is-calc and $start and $end {
-//       @return unquote(str-slice($value, $start, $end));
-//     } @else {
-//       @return unquote('#{$value}');
-//     }
-//   } @else {
-//     @return throw-error('decalc($value): $value [#{inspect($value)}] is not valid for (de)formatting');
-//   }
-// }
-
 @function decalc($value){
   // if non-string, return early
   @if type-of($value) != 'string' { @return $value; }
@@ -85,8 +64,6 @@
   // error if either expr is a bool or a list or null
   @if --sc-bad-factor($expr1) { @return throw-error('multiply($expr1, $expr2): $expr1 [#{inspect($expr1)}] is not a valid factor'); }
   @if --sc-bad-factor($expr2) { @return throw-error('multiply($expr1, $expr2): $expr2 [#{inspect($expr2)}] is not a valid factor'); }
-  // @if not $expr1 { @return throw-error('multiply($expr1, $expr2): $expr1 [#{inspect($expr1)}] is not a valid factor'); }
-  // @if not $expr2 { @return throw-error('multiply($expr1, $expr2): $expr2 [#{inspect($expr2)}] is not a valid factor'); }
   // otherwise format and return calc expression
   @return unquote('calc(#{decalc($expr1)} * #{decalc($expr2)})');
 }

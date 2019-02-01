@@ -16,26 +16,23 @@ $throw-catch: true !global;
   /*
   bad arguments
   ////////////////////////
-  content: "ERROR: bool is an invalid factor";
-  content: "ERROR: bool is an invalid factor";
-  content: "ERROR: bool is an invalid factor";
-  content: "ERROR: list is an invalid factor";
-  content: "ERROR: list is an invalid factor";
-  content: calc(hello * 1);
-  content: calc(1 * hello);
-  content: calc(hello * hello);
+  content: "ERROR: multiply($expr1, $expr2): $expr2 [false] is not a valid factor";
+  content: "ERROR: multiply($expr1, $expr2): $expr1 [false] is not a valid factor";
+  content: "ERROR: multiply($expr1, $expr2): $expr1 [false] is not a valid factor";
+  content: "ERROR: multiply($expr1, $expr2): $expr2 [1em 3] is not a valid factor";
+  content: "ERROR: multiply($expr1, $expr2): $expr1 [foo bar] is not a valid factor";
   */
   content: inspect(multiply(1.5em, false));
   content: inspect(multiply(false, 1.5));
   content: inspect(multiply(false, 1.5em));
   content: inspect(multiply(1.5em, (1em 3)));
   content: inspect(multiply((foo bar), 1.5em));
-  content: inspect(multiply('hello', 1));
-  content: inspect(multiply(1, 'hello'));
-  content: inspect(multiply('hello', 'hello'));
   /*
   string arguments
   ////////////////////////
+  content: calc(hello * 1);
+  content: calc(1 * hello);
+  content: calc(hello * hello);
   content: calc(1.5em * var(--foo));
   content: calc(var(--foo) * 1.5em);
   content: calc(var(--foo) * 2);
@@ -44,6 +41,9 @@ $throw-catch: true !global;
   content: calc((100% - 10px) * 1.5em);
   content: calc((100% - 10px) * 2);
   */
+  content: inspect(multiply('hello', 1));
+  content: inspect(multiply(1, 'hello'));
+  content: inspect(multiply('hello', 'hello'));
   content: inspect(multiply(1.5em, var(--foo)));
   content: inspect(multiply(var(--foo), 1.5em));
   content: inspect(multiply(var(--foo), 2));
@@ -66,9 +66,9 @@ $throw-catch: true !global;
   /*
   bad factors
   ////////////////////////
-  content: "list is an invalid factor";
-  content: "null is an invalid factor";
-  content: "null is an invalid factor";
+  content: "ERROR: multiply($expr1, $expr2): $expr2 [a b] is not a valid factor";
+  content: "ERROR: multiply($expr1, $expr2): $expr2 [null] is not a valid factor";
+  content: "ERROR: multiply($expr1, $expr2): $expr1 [null] is not a valid factor";
   */
   content: inspect(multiply(1.5em, (a b)));
   content: inspect(multiply(-1, null));

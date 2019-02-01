@@ -12,15 +12,28 @@ $throw-catch: true !global;
 .decalc {
   /*
   bad arguments
+  ////////////////////////
+  content: 'ERROR: decalc($value): $value ["calc(malformed"] seems to be malformed';
+  content: 'ERROR: decalc($value): $value ["calcmalformed)"] seems to be malformed';
   */
-  content: inspect(decalc(hello world));
-  content: inspect(decalc(null));
-  content: inspect(decalc(true));
   content: inspect(decalc('calc(malformed'));
   content: inspect(decalc('calcmalformed)'));
   /*
   string arguments
+  ////////////////////////
+  content: hello world;
+  content: null;
+  content: true;
+  content: hello world;
+  content: calculate;
+  content: calc;
+  content: (some-expression);
+  content: var(--foobar);
+  content: var(--foobar);
   */
+  content: inspect(decalc(hello world));
+  content: inspect(decalc(null));
+  content: inspect(decalc(true));
   content: inspect(decalc('hello world'));
   content: inspect(decalc('calculate'));
   content: inspect(decalc('calc'));

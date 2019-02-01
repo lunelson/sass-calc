@@ -1,83 +1,21 @@
-// @function --sc-one($unit:'') {
-//   $one: ('em': 1em, 'ex': 1ex, 'ch': 1ch, 'rem': 1rem, '%': 1%, 'vw': 1vw, 'vh': 1vh, 'vmin': 1vmin, 'vmax': 1vmax, 'cm': 1cm, 'mm': 1mm, 'in': 1in, 'px': 1px, 'pt': 1pt, 'pc': 1pc, 'deg': 1deg, 'grad': 1grad, 'rad': 1rad, 'turn': 1turn, 's': 1s, 'ms': 1ms, 'dpi': 1dpi, 'dpcm': 1dpcm, 'dppx': 1dppx);
-//   @return map-get($one, $unit) or 1;
-// }
-
-// @function --sc-strip($n) {
-//   @if not --sc-is-number($n) { @return throw-error("cannot manipulate unit of non-number"); }
-//   @return if(unitless($n), $n, $n / --sc-one(unit($n)));
-// }
-
 //
-// type/value checks
+// private
 // --------------------------------------------------------------------------
-
-// @function --sc-any-null($args...) {
-//   @each $arg in $args { @if type-of($arg) == 'null' { @return true; } }
-//   @return false;
-// }
-
-// @function --sc-any-bool($args...) {
-//   @each $arg in $args { @if type-of($arg) == 'bool' { @return true; } }
-//   @return false;
-// }
-
-// @function --sc-any-list($args...) {
-//   @each $arg in $args { @if type-of($arg) == 'list' and length($arg) > 1 { @return true; } }
-//   @return false;
-// }
-
-// @function --sc-is-bool($args...) {
-//   @each $arg in $args { @if type-of($arg) != 'bool' { @return false; } }
-//   @return true;
-// }
-
-// @function --sc-is-list($args...) {
-//   @each $arg in $args { @if type-of($arg) != 'list' or length($arg) > 1 { @return false; } }
-//   @return true;
-// }
 
 @function --sc-is-number($args...) {
   @each $arg in $args { @if type-of($arg) != 'number' { @return false; } }
   @return true;
 }
 
-// @function --sc-any-number($args...) {
-//   @each $arg in $args { @if type-of($arg) == 'number' { @return true; } }
-//   @return false;
-// }
-
-// @function --sc-is-string($args...) {
-//   @each $arg in $args { @if type-of($arg) != 'string' { @return false; } }
-//   @return true;
-// }
-
-// @function --sc-any-zero($args...) {
-//   @each $arg in $args {
-//     @if type-of($arg) == 'number' {
-//       @if --sc-strip($arg) == 0 { @return true; }
-//     }
-//   }
-//   @return false;
-// }
-
 @function --sc-is-zero($args...) {
   @each $arg in $args {
     @if type-of($arg) != 'number' { @return false; }
-    // @if --sc-strip($arg) != 0 { @return false; }
     $arg: if(unitless($arg), $arg, $arg / (0 * $arg + 1));
     @if $arg != 0 { @return false; }
   }
   @return true;
 }
 
-// @function --sc-is-unitless($args...) {
-//   @each $arg in $args {
-//     @if type-of($arg) != 'number' { @return false; }
-//     @if not unitless($arg) { @return false; }
-//   }
-//   @return true;
-// }
 
 @function --sc-bad-argument($arg) {
   @return type-of($arg) == 'bool' or type-of($arg) == 'list';
@@ -90,9 +28,7 @@
 @function --sc-bad-divisor($n) {
   @return (not $n or (--sc-is-number($n) and (--sc-is-zero($n) or (not unitless($n)))));
 }
-//
-// operability checks
-// --------------------------------------------------------------------------
+
 
 @function --sc-can-sum($a, $b){
   @if --sc-is-number($a, $b) { @return comparable($a, $b); }
@@ -109,10 +45,6 @@
   @return false;
 }
 
-//
-// utils
-// --------------------------------------------------------------------------
-
 @function --sc-str-last-index($str, $substr) {
   @if not --sc-is-string($str, $substr) { @return throw-error("non-string argument(s) supplied"); }
   $length: str-length($str);
@@ -122,32 +54,3 @@
   }
   @return null;
 }
-
-// @function decalc($value) {
-//   $is-calc: str-index($value, 'calc') == 1;
-//   $start: str-index($value, '(');
-//   $end: --sc-str-last-index($value, ')');
-//   @if $is-calc and $start and $end {
-//     @return unquote(str-slice($value, $start, $end));
-//   } @else {
-//     @return unquote('#{$value}');
-//   }
-// }
-
-// @function --sc-format($value){
-//   @if type-of($value) == 'number' {
-//     @return $value;
-//   } @else if type-of($value) == 'string' {
-//     @return decalc($value);
-//     // $is-calc: str-index($value, 'calc') == 1;
-//     // $start: str-index($value, '(');
-//     // $end: --sc-str-last-index($value, ')');
-//     // @if $is-calc and $start and $end {
-//     //   @return unquote(str-slice($value, $start, $end));
-//     // } @else {
-//     //   @return unquote('#{$value}');
-//     // }
-//   } @else {
-//     @return throw-error("invalid value for calc expression");
-//   }
-// }
