@@ -18,25 +18,21 @@
   "license": "MIT",
   "author": "Lu Nelson",
   "main": "_index.scss",
+  "scss": "_index.scss",
   "directories": {
     "test": "tests"
   },
   "scripts": {
-    "links": "npm link @lunelson/sass-throw",
     "test": "ava",
-    "start": "ava --watch --serial"
+    "watch": "ava --watch --serial"
   },
   "devDependencies": {
-    "@lunelson/sass-throw": "2.1.0",
     "ava": "^1.0.1",
     "del": "^3.0.0",
-    "node-sass": "^4.11.0",
     "sass": "^1.15.2",
     "write": "^1.0.3"
   },
-  "peerDependencies": {
-    "@lunelson/sass-throw": "2.1.0"
-  },
+  "peerDependencies": {},
   "publishConfig": {
     "access": "public"
   },
